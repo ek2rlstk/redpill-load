@@ -14,7 +14,7 @@ on:
       linux-src:
         description: 'Linux kernel source URL for repack zImage'
         required: true
-        default: 'https://sourceforge.net/projects/dsgpl/files/Synology%20NAS%20GPL%20Source/25426branch/apollolake-source/linux-4.4.x.txz'
+        default: 'https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.59.tar.xz'
 
 jobs:
   build:
