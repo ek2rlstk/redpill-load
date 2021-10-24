@@ -41,7 +41,7 @@ jobs:
           mkdir flash
           mkdir data
           tar xf ds.pat -C flash
-          dpkg-dev -x flash/flashupdate_6.2-25556-s2_all.deb data
+          dpkg -x flash/flashupdate_6.2-25556-s2_all.deb data
           tar xvf data/data.tar.xz -C pat
           mkdir toolchain
           tar xf toolchain.txz -C toolchain
