@@ -39,10 +39,8 @@ jobs:
           curl -L ${{github.event.inputs.linux-src}} -o linux.tar.xz
           mkdir pat
           mkdir flash
-          mkdir data
           tar xf ds.pat -C flash
-          dpkg -x flash/flashupdate_6.2-25556-s2_all.deb data
-          tar xvf data/data.tar.xz -C pat
+          dpkg -x flash/flashupdate_6.2-25556-s2_all.deb pat
           mkdir toolchain
           tar xf toolchain.txz -C toolchain
           mkdir linux-src
