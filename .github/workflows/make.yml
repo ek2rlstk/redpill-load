@@ -27,6 +27,8 @@ jobs:
           echo "::set-output name=patfile::$patfile"
           # install bsdiff
           sudo apt-get install -y bsdiff
+          # install dpkg-dev
+          sudo apt-get install -y dpkg-dev
 
           #ls -al $GITHUB_WORKSPACE/
           mkdir /opt/build
