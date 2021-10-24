@@ -6,15 +6,15 @@ on:
       pat-address:
         description: 'Pat file URL'
         required: true
-        default: 'https://global.download.synology.com/download/DSM/release/7.0.1/42218/DSM_DS918%2B_42218.pat'
+        default: 'https://global.download.synology.com/download/DSM/criticalupdate/update_pack/25556-2/synology_apollolake_918%2B.pat'
       toolchain:
         description: 'DSM toolchain URL for repack zImage'
         required: true
-        default: 'https://sourceforge.net/projects/dsgpl/files/Tool%20Chain/DSM%207.0.0%20Tool%20Chains/Intel%20x86%20Linux%204.4.180%20%28Apollolake%29/apollolake-gcc750_glibc226_x86_64-GPL.txz'
+        default: 'https://sourceforge.net/projects/dsgpl/files/Tool%20Chain/DSM%206.2.4%20Tool%20Chains/Intel%20x86%20Linux%204.4.59%20%28Apollolake%29/apollolake-gcc493_glibc220_linaro_x86_64-GPL.txz'
       linux-src:
         description: 'Linux kernel source URL for repack zImage'
         required: true
-        default: 'https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.180.tar.xz'
+        default: 'https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.59.tar.xz'
 
 jobs:
   build:
@@ -36,7 +36,11 @@ jobs:
           curl -L ${{github.event.inputs.toolchain}} -o toolchain.txz
           curl -L ${{github.event.inputs.linux-src}} -o linux.tar.xz
           mkdir pat
-          tar xf ds.pat -C pat
+          mkdir flash
+          mkdir data
+          tar xf ds.pat -C flash
+          dpkg-dev -x flash/flashupdate_6.2-25556-s2_all.deb data
+          tar xvf data/data.tar.xz -C pat
           mkdir toolchain
           tar xf toolchain.txz -C toolchain
           mkdir linux-src
