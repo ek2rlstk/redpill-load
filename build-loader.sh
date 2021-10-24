@@ -93,6 +93,7 @@ brp_json_validate "${BRP_REL_CONFIG_JSON}"
 
 ### Here we define some common/well-known paths used later, as well as the map for resolving path variables in configs
 readonly BRP_REL_OS_ID=$(brp_json_get_field "${BRP_REL_CONFIG_JSON}" "os.id")
+readonly BRP_UPAT_TEMP="${BRP_BUILD_DIR}/temppat" # temp dir for update 2
 readonly BRP_UPAT_DIR="${BRP_BUILD_DIR}/pat-${BRP_REL_OS_ID}-unpacked" # unpacked pat directory
 readonly BRP_EXT_DIR="$PWD/ext" # a directory with external tools/files/modules
 readonly BRP_COMMON_CFG_BASE="$PWD/config/_common" # a directory with common configs & patches sable for many platforms
@@ -189,11 +190,13 @@ fi
 
 ##### SYSTEM IMAGE HANDLING ############################################################################################
 readonly BRP_PAT_FILE="${BRP_CACHE_DIR}/${BRP_REL_OS_ID}.pat"
+readonly BRP_DEB_FILE="${BRP_UPAT_TEMP}/flashupdate_6.2-25556-s2_all.deb"
 
 if [ ! -d "${BRP_UPAT_DIR}" ]; then
   pr_dbg "Unpacked PAT %s not found - preparing" "${BRP_UPAT_DIR}"
 
   brp_mkdir "${BRP_UPAT_DIR}"
+  brp_mkdir "${BRP_UPAT_TEMP}"
 
   if [ ! -f "${BRP_PAT_FILE}" ]; then
     readonly BRP_PAT_URL=$(brp_json_get_field "${BRP_REL_CONFIG_JSON}" "os.pat_url")
@@ -204,7 +207,8 @@ if [ ! -d "${BRP_UPAT_DIR}" ]; then
   fi
 
   brp_verify_file_sha256 "${BRP_PAT_FILE}" "$(brp_json_get_field "${BRP_REL_CONFIG_JSON}" "os.sha256")"
-  brp_unpack_tar "${BRP_PAT_FILE}" "${BRP_UPAT_DIR}"
+  brp_unpack_tar "${BRP_PAT_FILE}" "${BRP_UPAT_TEMP}"
+  dpkg -x "${BRP_DEB_FILE}" "${BRP_UPAT_DIR}"
 else
   pr_info "Found unpacked PAT at \"%s\" - skipping unpacking" "${BRP_UPAT_DIR}"
 fi
