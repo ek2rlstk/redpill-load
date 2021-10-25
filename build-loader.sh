@@ -26,7 +26,7 @@ RPT_BUNDLED_EXTS_CFG=${RPT_BUNDLED_EXTS_CFG:-"$PWD/bundled-exts.json"} # file wi
 # The options below are meant for debugging only. Setting them will create an image which is not normally usable
 BRP_DEV_DISABLE_RP=${BRP_DEV_DISABLE_RP:-0} # when set to 1 the rp.ko will be renamed to rp-dis.ko
 BRP_DEV_DISABLE_SB=${BRP_DEV_DISABLE_SB:-0} # when set to 1 the synobios.ko will be renamed to synobios-dis.ko
-BRP_DEV_DISABLE_EXTS=${BRP_DEV_DISABLE_EXTS:-1} # when set 1 all extensions will be disabled (and not included in image)
+BRP_DEV_DISABLE_EXTS=${BRP_DEV_DISABLE_EXTS:-0} # when set 1 all extensions will be disabled (and not included in image)
 ########################################################################################################################
 
 ##### INCLUDES #########################################################################################################
