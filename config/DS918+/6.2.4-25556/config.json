@@ -1,21 +1,21 @@
 {
   "os": {
     "id": "ds918p_25556",
-    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/25556-2/synology_apollolake_918%2B.pat",
-    "sha256": "5e53a40eca7bd0c0d229561e3ef6bac51fb005a9a71eba88d02974cdfb7534a7"
+    "pat_url": "https://global.download.synology.com/download/DSM/release/6.2.4/25556/DSM_DS918%2B_25556.pat",
+    "sha256": "ee021d9cd012a434578309845e3af999a43f81a7887ceec7319e6005ac5930d4"
   },
 
   "files": {
     "zlinux": {
       "name": "zImage",
-      "sha256": "ceee6a4e69427e9706f57128f99b3a0022bd458283638d29492161f3a079ba76"
+      "sha256": "3f0f954c9bb6ef0fa195e244f6219ecb3c7a7b297ff6d584a119437eec612e88"
     },
     "ramdisk": {
       "name": "rd.gz",
-      "sha256": "20d1cacb818cd55ea7f63b3c4e19444cdf1aeb9f1246c61005d128a109363b0b"
+      "sha256": "bdb6a1b0f48a5ed713b9095db2b5976971cf714425982a1b5782f70749231324"
     },
     "vmlinux": {
-      "sha256": "7984a21aad784c158e42320fd6074ee83ca21619958b51a6ff497e80767605f0"
+      "sha256": "981fb9934beb4de02b553463542dc1154c8c14bdc073b92749979805c45c78a1"
     }
   },
 

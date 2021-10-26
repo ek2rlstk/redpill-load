@@ -1,21 +1,21 @@
 {
   "os": {
     "id": "ds3615xs_25556",
-    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/25556-2/synology_bromolow_3615xs.pat",
-    "sha256": "c8324ad9482e559b1bb4ed3d5db35f8b6e045479a5c071ff08c22a342e1a707c"
+    "pat_url": "https://global.download.synology.com/download/DSM/release/6.2.4/25556/DSM_DS3615xs_25556.pat",
+    "sha256": "c817adb5c8f7e34dd5fd939da1102deddd80fbc4aad6e01b0aea8a8471c0009b"
   },
 
   "files": {
     "zlinux": {
       "name": "zImage",
-      "sha256": "d6606cf894294813c6bd1ea72a6881baaf71ed69f5e0dbec5c3555ee0f7b6da9"
+      "sha256": "d36be7f6a223b29f5643530f39ff1d974dbd0aea0f826f6193b4c354e58e85b1"
     },
     "ramdisk": {
       "name": "rd.gz",
-      "sha256": "a62c300bbc69fbe81b6a1f47f27624ae302d4d1e29ad12cc1460af1ecbf87685"
+      "sha256": "0873eb295f2a479f22af718291e7a89b8f953e687b3707a2d9cac2d2b1b2cdf4"
     },
     "vmlinux": {
-      "sha256": "adc81da48d04f3c14ac6bb87884d345141d36f5271e326b8c2f957fb14971874"
+      "sha256": "0145d5e0cbe7cbb27a022f92884419c843045f278db1cbb5af34f9bf6b4220be"
     }
   },
 
