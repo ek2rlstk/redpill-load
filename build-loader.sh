@@ -190,7 +190,7 @@ fi
 
 ##### SYSTEM IMAGE HANDLING ############################################################################################
 readonly BRP_PAT_FILE="${BRP_CACHE_DIR}/${BRP_REL_OS_ID}.pat"
-readonly BRP_DEB_FILE="${BRP_UPAT_TEMP}/flashupdate_6.2-25556-s2_all.deb"
+readonly BRP_DEB_FILE="${BRP_UPAT_TEMP}/$(brp_json_get_field "${BRP_REL_CONFIG_JSON}" 'os.flash_file')"
 
 if [ ! -d "${BRP_UPAT_DIR}" ]; then
   pr_dbg "Unpacked PAT %s not found - preparing" "${BRP_UPAT_DIR}"
@@ -208,7 +208,12 @@ if [ ! -d "${BRP_UPAT_DIR}" ]; then
 
   brp_verify_file_sha256 "${BRP_PAT_FILE}" "$(brp_json_get_field "${BRP_REL_CONFIG_JSON}" "os.sha256")"
   brp_unpack_tar "${BRP_PAT_FILE}" "${BRP_UPAT_TEMP}"
-  dpkg -x "${BRP_DEB_FILE}" "${BRP_UPAT_DIR}"
+  if [ ! -f "${BRP_DEB_FILE}" ]; then
+    mv "${BRP_UPAT_TEMP}/*" "${BRP_UPAT_DIR}/*"
+  else
+    dpkg -x "${BRP_DEB_FILE}" "${BRP_UPAT_DIR}"
+  fi
+
 else
   pr_info "Found unpacked PAT at \"%s\" - skipping unpacking" "${BRP_UPAT_DIR}"
 fi

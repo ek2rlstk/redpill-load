@@ -27,8 +27,6 @@ jobs:
           echo "::set-output name=patfile::$patfile"
           # install bsdiff
           sudo apt-get install -y bsdiff
-          # install dpkg-dev
-          sudo apt-get install -y dpkg-dev
 
           #ls -al $GITHUB_WORKSPACE/
           mkdir /opt/build
@@ -38,9 +36,13 @@ jobs:
           curl -L ${{github.event.inputs.toolchain}} -o toolchain.txz
           curl -L ${{github.event.inputs.linux-src}} -o linux.tar.xz
           mkdir pat
-          mkdir flash
-          tar xf ds.pat -C flash
-          dpkg -x flash/flashupdate_6.2-25556-s2_all.deb pat
+          tar xf ds.pat -C pat
+          if [ ! -f "pat/zImage" ]; then
+            cd pat
+            ar x $(ls flashupdate*)
+            tar xf data.tar.xz
+            cd ..
+          fi
           mkdir toolchain
           tar xf toolchain.txz -C toolchain
           mkdir linux-src

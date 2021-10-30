@@ -2,6 +2,7 @@
   "os": {
     "id": "ds918p_25556u2",
     "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/25556-2/synology_apollolake_918%2B.pat",
+    "flash_file": "flashupdate_6.2-25556-s2_all.deb",
     "sha256": "5e53a40eca7bd0c0d229561e3ef6bac51fb005a9a71eba88d02974cdfb7534a7"
   },
 
