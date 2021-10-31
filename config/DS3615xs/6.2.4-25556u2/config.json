@@ -2,7 +2,6 @@
   "os": {
     "id": "ds3615xs_25556u2",
     "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/25556-2/synology_bromolow_3615xs.pat",
-    "flash_file": "flashupdate_6.2-25556-s2_all.deb",
     "sha256": "c8324ad9482e559b1bb4ed3d5db35f8b6e045479a5c071ff08c22a342e1a707c"
   },
 

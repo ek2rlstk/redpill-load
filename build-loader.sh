@@ -211,7 +211,8 @@ if [ ! -d "${BRP_UPAT_DIR}" ]; then
   if [ ! -f "${BRP_DEB_FILE}" ]; then
     mv "${BRP_UPAT_TEMP}/*" "${BRP_UPAT_DIR}/*"
   else
-    dpkg -x "${BRP_DEB_FILE}" "${BRP_UPAT_DIR}"
+    ar x "${BRP_UPAT_TEMP}/$(ls flashupdate*)"
+    tar xf "${BRP_UPAT_TEMP}/data.tar.xz" -C "${BRP_UPAT_DIR}"
   fi
 
 else
