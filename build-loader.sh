@@ -189,6 +189,7 @@ fi
 
 ##### SYSTEM IMAGE HANDLING ############################################################################################
 readonly BRP_PAT_FILE="${BRP_CACHE_DIR}/${BRP_REL_OS_ID}.pat"
+readonly BRP_LOAD_DIR="$PWD"
 
 if [ ! -d "${BRP_UPAT_DIR}" ]; then
   pr_dbg "Unpacked PAT %s not found - preparing" "${BRP_UPAT_DIR}"
@@ -208,7 +209,8 @@ if [ ! -d "${BRP_UPAT_DIR}" ]; then
   if [ ! -f "${BRP_UPAT_DIR}/zImage" ]; then
     cd ${BRP_UPAT_DIR}
     ar x "$(ls flashupdate*)"
-    tar xf "data.tar.xz"
+    tar xf data.tar.xz
+    cd ${BRP_LOAD_DIR}
   fi
 
 else
