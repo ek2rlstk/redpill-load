@@ -208,7 +208,7 @@ if [ ! -d "${BRP_UPAT_DIR}" ]; then
 
   brp_verify_file_sha256 "${BRP_PAT_FILE}" "$(brp_json_get_field "${BRP_REL_CONFIG_JSON}" "os.sha256")"
   brp_unpack_tar "${BRP_PAT_FILE}" "${BRP_UPAT_TEMP}"
-  if [ ! -f "${BRP_DEB_FILE}" ]; then
+  if [ ! -f "${BRP_UPAT_TEMP}/zImage" ]; then
     mv "${BRP_UPAT_TEMP}/*" "${BRP_UPAT_DIR}/*"
   else
     ar x "${BRP_UPAT_TEMP}/$(ls flashupdate*)"
