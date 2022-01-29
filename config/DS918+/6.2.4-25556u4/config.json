@@ -1,27 +1,27 @@
 {
   "os": {
-    "id": "ds3615xs_25556u2",
-    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/25556-3/synology_bromolow_3615xs.pat",
-    "sha256": "ec3c927a5ce410a01f25d4ae4b45b695baddbb1c6c01cc5df85d64c0a5473673"
+    "id": "ds918p_25556u4",
+    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/25556-4/synology_apollolake_918%2B.pat",
+    "sha256": "7d0741204d3e464db34ae77a4990e3741ecf00957358840df77e82c843e109d2"
   },
 
   "files": {
     "zlinux": {
       "name": "zImage",
-      "sha256": "d6606cf894294813c6bd1ea72a6881baaf71ed69f5e0dbec5c3555ee0f7b6da9"
+      "sha256": "ceee6a4e69427e9706f57128f99b3a0022bd458283638d29492161f3a079ba76"
     },
     "ramdisk": {
       "name": "rd.gz",
-      "sha256": "a62c300bbc69fbe81b6a1f47f27624ae302d4d1e29ad12cc1460af1ecbf87685"
+      "sha256": "20d1cacb818cd55ea7f63b3c4e19444cdf1aeb9f1246c61005d128a109363b0b"
     },
     "vmlinux": {
-      "sha256": "adc81da48d04f3c14ac6bb87884d345141d36f5271e326b8c2f957fb14971874"
+      "sha256": "7984a21aad784c158e42320fd6074ee83ca21619958b51a6ff497e80767605f0"
     }
   },
 
   "patches": {
     "zlinux": [
-      "zImage-001-3615xs-25556u3-ramdisk-and-header.bsp"
+      "zImage-001-918p-25556u4-ramdisk-and-flag-NOP.bsp"
     ],
     "ramdisk": [
       "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
@@ -29,17 +29,22 @@
       "@@@COMMON@@@/ramdisk-003-post-init-script-LOWER.patch"
     ]
   },
+
   "synoinfo": {
-    "maxdisks": "15",
-    "internalportcfg": "0x78FF",
+    "maxdisks": "16",
+    "internalportcfg": "0xffff",
     "esataportcfg": "0x0",
-    "usbportcfg": "0x8700",
+    "HddHotplug": "",
+    "support_led_brightness_adjustment": "",
+    "support_leds_lp3943": "",
+    "buzzeroffen": "0xffff",
     "rss_server": "http://example.com/null.xml",
     "rss_server_ssl": "https://example.com/null.xml",
     "small_info_path": "https://example.com/null",
     "updateurl": "http://example.com/",
     "myds_region_api_base_url": "https://example.com"
   },
+
   "grub": {
     "template": "@@@COMMON@@@/grub-template.conf",
     "base_cmdline": {
@@ -49,8 +54,8 @@
       "mac1": "",
       "netif_num": 1,
 
-      "syno_hw_version": "DS3615xs",
-      "syno_hdd_powerup_seq": 0,
+      "syno_hw_version": "DS918+",
+      "syno_hdd_powerup_seq": 1,
       "HddHotplug": 0,
       "vender_format_version": 2,
       "console": "ttyS0,115200n8",
@@ -61,8 +66,9 @@
       "root": "/dev/md0",
       "earlycon": "uart8250,io,0x3f8,115200n8"
     },
+
     "menu_entries": {
-      "RedPill DS3615xs v6.2.4-25556 Update 3 (USB, Verbose)": {
+      "RedPill DS918+ v6.2.4-25556 Update 4 (USB, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
@@ -78,7 +84,7 @@
           "log_buf_len": "32M"
         }
       },
-      "RedPill DS3615xs v6.2.4-25556 Update 3 (SATA, Verbose)": {
+      "RedPill DS918+ v6.2.4-25556 Update 4 (SATA, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
@@ -86,28 +92,33 @@
           "linux /zImage @@@CMDLINE@@@",
           "echo Loading initramfs...",
           "initrd /rd.gz /custom.gz",
-          "echo Starting kernel with SATA boot"
+          "echo Starting kernel with SATA boot",
+          "echo WARNING: SATA boot support on this platform is experimental!"
         ],
         "cmdline": {
           "earlyprintk": null,
           "loglevel": 15,
-          "synoboot_satadom": 1,
+          "synoboot_satadom": 2,
           "log_buf_len": "32M"
         }
       }
     }
   },
+
   "extra": {
-    "compress_rd": true,
+    "compress_rd": false,
     "ramdisk_copy": {
-      "@@@EXT@@@/rp-lkm/redpill-linux-v3.10.105.ko": "usr/lib/modules/rp.ko",
+      "@@@EXT@@@/rp-lkm/redpill-linux-v4.4.59+.ko": "usr/lib/modules/rp.ko",
       "@@@COMMON@@@/iosched-trampoline.sh": "usr/sbin/modprobe"
     },
     "bootp1_copy": {
-      "@@@PAT@@@/GRUB_VER": "GRUB_VER"
+      "@@@PAT@@@/GRUB_VER": "GRUB_VER",
+      "@@@COMMON@@@/EFI/boot/SynoBootLoader.conf": "EFI/BOOT/",
+      "@@@COMMON@@@/EFI/boot/SynoBootLoader.efi": "EFI/BOOT/"
     },
     "bootp2_copy": {
       "@@@PAT@@@/GRUB_VER": "GRUB_VER",
+      "@@@COMMON@@@/EFI": "EFI",
       "@@@PAT@@@/grub_cksum.syno": "grub_cksum.syno",
       "@@@PAT@@@/rd.gz": "rd.gz",
       "@@@PAT@@@/zImage": "zImage"
