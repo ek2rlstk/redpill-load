@@ -1,5 +1,5 @@
---- a/init.post
-+++ b/init.post
+--- a/usr/sbin/init.post
++++ a/usr/sbin/init.post
 @@ -32,6 +32,29 @@
  # shellcheck disable=SC2046
  Mount "${RootMountPath}" /tmpRoot -o barrier=1 ${OptPrjQuota}
