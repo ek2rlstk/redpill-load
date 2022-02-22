@@ -38,7 +38,7 @@ jobs:
           curl -L ${{github.event.inputs.linux-src}} -o linux.tar.xz
           mkdir pat
           #tar -xf ds.pat -C pat
-          unzip mypat.zip -d /pat
+          unzip mypat.zip -d pat
           if [ ! -f "pat/zImage" ]; then
             cd pat
             ar x $(ls flashupdate*)
