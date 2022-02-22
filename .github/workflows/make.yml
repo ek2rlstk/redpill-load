@@ -6,15 +6,15 @@ on:
       pat-address:
         description: 'Pat file URL'
         required: true
-        default: 'https://global.download.synology.com/download/DSM/criticalupdate/update_pack/25556-2/synology_apollolake_918%2B.pat'
+        default: 'https://github.com/ek2rlstk/redpill-load/blob/develop-new/.github/mypat.zip'
       toolchain:
         description: 'DSM toolchain URL for repack zImage'
         required: true
-        default: 'https://sourceforge.net/projects/dsgpl/files/Tool%20Chain/DSM%206.2.4%20Tool%20Chains/Intel%20x86%20Linux%204.4.59%20%28Apollolake%29/apollolake-gcc493_glibc220_linaro_x86_64-GPL.txz'
+        default: 'https://sourceforge.net/projects/dsgpl/files/Tool%20Chain/DSM%207.0.0%20Tool%20Chains/Intel%20x86%20Linux%204.4.180%20%28Apollolake%29/apollolake-gcc750_glibc226_x86_64-GPL.txz'
       linux-src:
         description: 'Linux kernel source URL for repack zImage'
         required: true
-        default: 'https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.59.tar.xz'
+        default: 'https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.180.tar.xz'
 
 jobs:
   build:
@@ -32,11 +32,12 @@ jobs:
           mkdir /opt/build
           mkdir /opt/dist
           cd /opt/build
-          curl -L ${{github.event.inputs.pat-address}} -o ds.pat
+          # curl -L ${{github.event.inputs.pat-address}} -o ds.pat
           curl -L ${{github.event.inputs.toolchain}} -o toolchain.txz
           curl -L ${{github.event.inputs.linux-src}} -o linux.tar.xz
           mkdir pat
-          gzip -dc ds.pat | tar -xvzf ds.pat -C pat
+          #tar -xf ds.pat -C pat
+          unzip mypat.zip -d /pat
           if [ ! -f "pat/zImage" ]; then
             cd pat
             ar x $(ls flashupdate*)
