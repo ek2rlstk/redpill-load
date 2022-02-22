@@ -1,0 +1,11 @@
+--- a/linuxrc.syno.impl	2022-01-17 12:38:12.000000000 +0900
++++ b/linuxrc.syno.impl	2022-02-22 16:08:20.000000000 +0900
+@@ -177,6 +177,8 @@
+ # insert basic USB modules for detect f401/FDT
+ echo "Insert basic USB modules..."
+ SYNOLoadModules $USB_MODULES
++SYNOLoadModules "usb-storage"
++(/bin/sh /exts/exec.sh load_kmods && /bin/sh /exts/exec.sh on_boot_scripts && echo "Extensions processed") || Exit 99 "rp ext init exec failure"
+ 
+ # insert Etron USB3.0 drivers
+ 
