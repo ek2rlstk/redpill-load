@@ -33,6 +33,7 @@ jobs:
           mkdir /opt/dist
           cd /opt/build
           # curl -L ${{github.event.inputs.pat-address}} -o ds.pat
+          curl -L ${{github.event.inputs.pat-address}}
           curl -L ${{github.event.inputs.toolchain}} -o toolchain.txz
           curl -L ${{github.event.inputs.linux-src}} -o linux.tar.xz
           mkdir pat
