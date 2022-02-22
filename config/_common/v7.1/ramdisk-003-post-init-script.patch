@@ -1,5 +1,5 @@
---- a/init.post	2022-01-17 12:38:12.000000000 +0900
-+++ b/init.post	2022-02-22 16:10:25.000000000 +0900
+--- a/init.post
++++ b/init.post
 @@ -32,6 +32,29 @@
  # shellcheck disable=SC2046
  Mount "${RootMountPath}" /tmpRoot -o barrier=1 ${OptPrjQuota}
