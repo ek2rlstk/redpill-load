@@ -32,12 +32,12 @@ jobs:
           mkdir /opt/build
           mkdir /opt/dist
           cd /opt/build
-          # curl -L ${{github.event.inputs.pat-address}} -o ds.pat
+          curl -L ${{github.event.inputs.pat-address}} -o ds.pat
           # curl -L ${{github.event.inputs.pat-address}} -o mypat.zip
           curl -L ${{github.event.inputs.toolchain}} -o toolchain.txz
           curl -L ${{github.event.inputs.linux-src}} -o linux.tar.xz
           mkdir pat
-          # tar -xf ds.pat -C pat
+          tar -xf ds.pat -C pat
           # unzip mypat.zip -d pat
           if [ ! -f "pat/zImage" ]; then
             cd pat

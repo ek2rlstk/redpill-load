@@ -1,7 +1,7 @@
 {
   "os": {
-    "id": "ds918p_42550",
-    "pat_url": "https://ek2.asuscomm.com:3535/mypat.pat",
+    "id": "ds918p_42621",
+    "pat_url": "ds.pat",
     "sha256": "903e58bb96f263c6ba5e0633abb3edfeb6350106a62808155d846fd730b06dfe"
   },
 
@@ -21,12 +21,13 @@
 
   "patches": {
     "zlinux": [
-      "zImage-001-918p-42550-ramdisk-and-flag-NOP.bsp"
+      "zImage-001-918p-42621-ramdisk-and-flag-NOP.bsp"
     ],
     "ramdisk": [
       "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
-      "@@@COMMON@@@/v7.1/ramdisk-002-init-script.patch",
-      "@@@COMMON@@@/v7.1/ramdisk-003-post-init-script.patch"
+      "@@@COMMON@@@/v7.0.1/ramdisk-002-init-script.patch",
+      "@@@COMMON@@@/v7.0.1/ramdisk-003-post-init-script.patch",
+			"@@@COMMON@@@/ramdisk-004-network-hosts.patch"
     ]
   },
 
@@ -68,7 +69,7 @@
     },
 
     "menu_entries": {
-      "RedPill DS918+ v7.1-42550 (USB, Verbose)": {
+      "RedPill DS918+ v7.1.0-42621 (USB, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
@@ -84,7 +85,7 @@
           "log_buf_len": "32M"
         }
       },
-      "RedPill DS918+ v7.1-42550 (SATA, Verbose)": {
+      "RedPill DS918+ v7.1.0-42621 (SATA, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
