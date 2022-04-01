@@ -2,20 +2,20 @@
   "os": {
     "id": "ds918p_42621",
     "pat_url": "ds.pat",
-    "sha256": "903e58bb96f263c6ba5e0633abb3edfeb6350106a62808155d846fd730b06dfe"
+    "sha256": "96dfcd64441f171060ca311d80c469a98216f404e2474c63cee3055f7c025d8c"
   },
 
   "files": {
     "zlinux": {
       "name": "zImage",
-      "sha256": "12f006f417d32101efad237228a73925e7220f98ddf91ff82d07be13e20413e9"
+      "sha256": "872c904a4e7d5d97061ff291646950b81dd72acc532698fb787b27f1e7c85dc5"
     },
     "ramdisk": {
       "name": "rd.gz",
-      "sha256": "d505535efdd01cc2101a26f470b5bfd8bac8c1c3eaec5ea57c34d453f4c1d9ed"
+      "sha256": "66f68d2d2412871b6591be6ea3dc809e2f8cc0ae34e99cef71aa2e912ed878ba"
     },
     "vmlinux": {
-      "sha256": "d6d6fd26f11179569b916f6ddb3ae272c5e01525e135d80bdf834e6408236327"
+      "sha256": "552eb51031cf90d40436c5a340e9d67a4f0693329148bc51e3b15b96a9d5c9d2"
     }
   },
 
@@ -69,7 +69,7 @@
     },
 
     "menu_entries": {
-      "RedPill DS918+ v7.1.0-42621 (USB, Verbose)": {
+      "RedPill DS918+ v7.1.0-42621 Beta (USB, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
@@ -85,7 +85,7 @@
           "log_buf_len": "32M"
         }
       },
-      "RedPill DS918+ v7.1.0-42621 (SATA, Verbose)": {
+      "RedPill DS918+ v7.1.0-42621 Beta (SATA, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
