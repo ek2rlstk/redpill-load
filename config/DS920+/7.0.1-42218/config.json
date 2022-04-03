@@ -1,27 +1,27 @@
 {
   "os": {
-    "id": "ds918p_42621",
-    "pat_url": "https://global.download.synology.com/download/DSM/release/7.1/42621/DSM_DS918%2B_42621.pat",
-    "sha256": "96dfcd64441f171060ca311d80c469a98216f404e2474c63cee3055f7c025d8c"
+    "id": "ds920p_42218",
+    "pat_url": "https://global.download.synology.com/download/DSM/release/7.0.1/42218/DSM_DS920%2B_42218.pat",
+    "sha256": "73053911bd118b432d5a2036dc62d518eed83b78b32c1eb23696d59725a14892"
   },
 
   "files": {
     "zlinux": {
       "name": "zImage",
-      "sha256": "872c904a4e7d5d97061ff291646950b81dd72acc532698fb787b27f1e7c85dc5"
+      "sha256": "74d513aaa3e30d8aa4f80e202d94a68a552e9c0472f8470e133ad29080556f55"
     },
     "ramdisk": {
       "name": "rd.gz",
-      "sha256": "66f68d2d2412871b6591be6ea3dc809e2f8cc0ae34e99cef71aa2e912ed878ba"
+      "sha256": "e39890f4bef2e5e4eea956996b0dd92d081c6d9e7c393331131e65bbad1a17a9"
     },
     "vmlinux": {
-      "sha256": "552eb51031cf90d40436c5a340e9d67a4f0693329148bc51e3b15b96a9d5c9d2"
+      "sha256": "84e5e1a238e73ffe2ccf08d51e3f9ad13385fcdcac18163678de3f6ad1447bc4"
     }
   },
 
   "patches": {
     "zlinux": [
-      "zImage-001-918p-42621-ramdisk-and-flag-NOP.bsp"
+      "zImage-001-920p-42218-ramdisk-and-flag-NOP.bsp"
     ],
     "ramdisk": [
       "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
@@ -31,18 +31,11 @@
   },
 
   "synoinfo": {
-    "maxdisks": "16",
-    "internalportcfg": "0xffff",
-    "esataportcfg": "0x0",
-    "HddHotplug": "",
-    "support_led_brightness_adjustment": "",
-    "support_leds_lp3943": "",
-    "buzzeroffen": "0xffff",
-    "rss_server": "http://example.com/null.xml",
-    "rss_server_ssl": "https://example.com/null.xml",
-    "small_info_path": "https://example.com/null",
+    "rss_server": "http://example.com/autoupdate/genRSS.php",
+    "rss_server_ssl": "https://example.com/autoupdate/genRSS.php",
+    "small_info_path": "https://example.com/smallupdate",
     "updateurl": "http://example.com/",
-    "myds_region_api_base_url": "https://example.com"
+    "myds_region_api_base_url": "https://example.com/"
   },
 
   "grub": {
@@ -54,21 +47,21 @@
       "mac1": "",
       "netif_num": 1,
 
-      "syno_hw_version": "DS918+",
-      "syno_hdd_powerup_seq": 1,
-      "HddHotplug": 0,
+      "syno_hw_version": "DS920+",
+      "intel_iommu": "igfx_off",
+      "HddEnableDynamicPower": 1,
       "vender_format_version": 2,
       "console": "ttyS0,115200n8",
-      "withefi": null,
+      "synoboot2": null,
       "elevator": "elevator",
-      "syno_port_thaw": 1,
-      "syno_hdd_detect": 0,
+      "syno_ttyS0": "serial,0x3f8",
+      "syno_ttyS1": "serial,0x2f8",
       "root": "/dev/md0",
       "earlycon": "uart8250,io,0x3f8,115200n8"
     },
 
     "menu_entries": {
-      "RedPill DS918+ v7.1.0-42621 Beta (USB, Verbose)": {
+      "RedPill DS920+ v7.0.1-42218 (USB, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
@@ -84,7 +77,7 @@
           "log_buf_len": "32M"
         }
       },
-      "RedPill DS918+ v7.1.0-42621 Beta (SATA, Verbose)": {
+      "RedPill DS920+ v7.0.1-42218 (SATA, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
