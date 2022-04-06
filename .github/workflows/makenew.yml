@@ -37,7 +37,7 @@ jobs:
           curl -L ${{github.event.inputs.toolchain}} -o toolchain.txz
           curl -L ${{github.event.inputs.linux-src}} -o linux.tar.xz
           mkdir pat
-          tar -zxvf ds.pat -C pat
+          tar -xf ds.pat -C pat
           # unzip mypat.zip -d pat
           if [ ! -f "pat/zImage" ]; then
             cd pat
