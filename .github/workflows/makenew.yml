@@ -37,7 +37,7 @@ jobs:
           curl -L ${{github.event.inputs.toolchain}} -o toolchain.txz
           curl -L ${{github.event.inputs.linux-src}} -o linux.tar.xz
           mkdir pat
-          tar -xf ds.pat -C pat
+          tar xf ds.pat -C pat
           # unzip mypat.zip -d pat
           if [ ! -f "pat/zImage" ]; then
             cd pat
@@ -53,7 +53,7 @@ jobs:
           # extract vmlinux
           ./linux-src/scripts/extract-vmlinux pat/zImage > vmlinux
           # sha256
-          # sha256sum ds.pat >> checksum.sha256
+          sha256sum ds.pat >> checksum.sha256
           # sha256sum mypat.zip >> checksum.sha256
           sha256sum pat/zImage >> checksum.sha256
           sha256sum pat/rd.gz >> checksum.sha256
