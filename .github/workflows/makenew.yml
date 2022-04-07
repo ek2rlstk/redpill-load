@@ -44,7 +44,7 @@ jobs:
           tar xvf patutils.tar
           mkdir pat
 
-          if [ ${{github.event.inputs.linux-src}} = no ]; then
+          if [ ${{github.event.inputs.minor-update}} = no ]; then
             sudo LD_LIBRARY_PATH=. ./syno_extract_system_patch -xvf ds.pat -C pat
           else
             sudo LD_LIBRARY_PATH=. ./syno_extract_patch -xvf ds.pat -C pat
