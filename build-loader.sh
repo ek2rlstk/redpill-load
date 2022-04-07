@@ -206,10 +206,20 @@ if [ ! -d "${BRP_UPAT_DIR}" ]; then
 
   brp_verify_file_sha256 "${BRP_PAT_FILE}" "$(brp_json_get_field "${BRP_REL_CONFIG_JSON}" "os.sha256")"
   brp_unpack_tar "${BRP_PAT_FILE}" "${BRP_UPAT_DIR}"
+
+  # flashupdate for ~6.2.4
+  #if [ ! -f "${BRP_UPAT_DIR}/zImage" ]; then
+  #  cd ${BRP_UPAT_DIR}
+  #  ar x "$(ls flashupdate*)"
+  #  tar xf data.tar.xz
+  #  cd ${BRP_LOAD_DIR}
+  #fi
+
+  #flashupdate for 7.0.0~ (only decrypted pat)
   if [ ! -f "${BRP_UPAT_DIR}/zImage" ]; then
     cd ${BRP_UPAT_DIR}
-    ar x "$(ls flashupdate*)"
-    tar xf data.tar.xz
+    tar xf flashupdate*.tar
+    tar xf content.txz
     cd ${BRP_LOAD_DIR}
   fi
 
