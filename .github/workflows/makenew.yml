@@ -45,11 +45,11 @@ jobs:
           mkdir pat
 
           if [ ${{github.event.inputs.minor-update}} = no ]; then
-            sudo LD_LIBRARY_PATH=. ./syno_extract_system_patch -xvf ds.pat
+            sudo LD_LIBRARY_PATH=. ./syno_extract_system_patch -xvf ds.pat -C pat
+          else
+            sudo LD_LIBRARY_PATH=. ./syno_extract_patch -xvf ds.pat
             tar xf flashupdate*.tar
             tar xf content.txz -C pat
-          else
-            sudo LD_LIBRARY_PATH=. ./syno_extract_patch -xvf ds.pat -C pat
           fi
 
           mkdir toolchain
