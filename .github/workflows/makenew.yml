@@ -39,7 +39,7 @@ jobs:
           curl -L ${{github.event.inputs.pat-address}} -o ds.pat
           curl -L ${{github.event.inputs.toolchain}} -o toolchain.txz
           curl -L ${{github.event.inputs.linux-src}} -o linux.tar.xz
-          curl -L curl --location https://raw.githubusercontent.com/ek2rlstk/redpill-loader-action/master/misc --output misc
+          curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-loader-action/master/misc --output misc
           base64 -d misc > patutils.tar
           tar xvf patutils.tar
           mkdir pat
@@ -56,7 +56,7 @@ jobs:
             tar xf data.tar.xz
             cd ..
           fi
-          
+
           mkdir toolchain
           tar xf toolchain.txz -C toolchain
           mkdir linux-src
