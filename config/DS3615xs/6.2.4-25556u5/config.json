@@ -1,8 +1,8 @@
 {
   "os": {
-    "id": "ds3615xs_25556u4",
-    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/25556-4/synology_bromolow_3615xs.pat",
-    "sha256": "6b3d0e4ba836eb506e364bbc74916c943c8c36ce0ea8d2854ddf21a357994245"
+    "id": "ds3615xs_25556u5",
+    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/25556-5/synology_bromolow_3615xs.pat",
+    "sha256": "d25e15008cbb2ecf3932d7933634f39a886af42f8d2b14ed73ae5946c7275613"
   },
 
   "files": {
@@ -21,7 +21,7 @@
 
   "patches": {
     "zlinux": [
-      "zImage-001-3615xs-25556u4-ramdisk-and-header.bsp"
+      "zImage-001-3615xs-25556u5-ramdisk-and-header.bsp"
     ],
     "ramdisk": [
       "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
@@ -62,7 +62,7 @@
       "earlycon": "uart8250,io,0x3f8,115200n8"
     },
     "menu_entries": {
-      "RedPill DS3615xs v6.2.4-25556 Update 4 (USB, Verbose)": {
+      "RedPill DS3615xs v6.2.4-25556 Update 5 (USB, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
@@ -78,7 +78,7 @@
           "log_buf_len": "32M"
         }
       },
-      "RedPill DS3615xs v6.2.4-25556 Update 4 (SATA, Verbose)": {
+      "RedPill DS3615xs v6.2.4-25556 Update 5 (SATA, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
