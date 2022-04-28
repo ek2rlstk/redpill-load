@@ -1,8 +1,8 @@
 {
     "os": {
         "id": "ds3622xsp_42661",
-        "pat_url": "https://global.download.synology.com/download/DSM/release/7.1/42661/DSM_DS3622xs%2B_42661.pat",
-        "sha256": "33b58db45bb7440a23a20756cbc37d3b4daa531625d66a085cc24b2b10915321"
+        "pat_url": "https://global.download.synology.com/download/DSM/release/7.1/42661-1/DSM_DS3622xs%2B_42661.pat",
+        "sha256": "4f1ff5b0563c1464c75c2626522381655597241822397844b76e3313e1bc0dd6"
     },
 
     "files": {
@@ -73,7 +73,7 @@
             "earlycon": "uart8250,io,0x3f8,115200n8"
         },
         "menu_entries": {
-            "RedPill DS3622xs v7.1.0-42661 (USB, Verbose)": {
+            "RedPill DS3622xs v7.1.0-42661 Update 1 (USB, Verbose)": {
                 "options": [
                     "savedefault",
                     "set root=(hd0,msdos1)",
@@ -89,7 +89,7 @@
                     "log_buf_len": "32M"
                 }
             },
-            "RedPill DS3622xs v7.1.0-42661 (SATA, Verbose)": {
+            "RedPill DS3622xs v7.1.0-42661 Update 1 (SATA, Verbose)": {
                 "options": [
                     "savedefault",
                     "set root=(hd0,msdos1)",
