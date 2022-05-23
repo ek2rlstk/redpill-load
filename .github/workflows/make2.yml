@@ -1,4 +1,4 @@
-name: Make kernel bs patch
+name: Make kernel bs patch 71
 
 on:
   workflow_dispatch:
@@ -6,11 +6,12 @@ on:
       pat-address:
         description: 'Pat file URL'
         required: true
-        default: 'https://global.download.synology.com/download/DSM/release/7.0.1/42218/DSM_DS918%2B_42218.pat'
+        default: 'https://cndl.synology.cn/download/DSM/release/7.0.1/42218/DSM_DS3622xs+_42218.pat'
       toolchain:
         description: 'DSM toolchain URL for repack zImage'
         required: true
-        default: 'https://sourceforge.net/projects/dsgpl/files/Tool%20Chain/DSM%207.0.0%20Tool%20Chains/Intel%20x86%20Linux%204.4.180%20%28Apollolake%29/apollolake-gcc750_glibc226_x86_64-GPL.txz'
+        default: 'https://downloads.sourceforge.net/project/dsgpl/Tool%20Chain/DSM%207.0.0%20Tool%20Chains/Intel%20x86%20Linux%204.4.180%20%28Broadwellnk%29/broadwellnk-gcc750_glibc226_x86_64-GPL.txz'
+
       linux-src:
         description: 'Linux kernel source URL for repack zImage'
         required: true
@@ -22,11 +23,13 @@ jobs:
     steps:
       - name: Bulid
         id: bulid-bsp
+        env:
+            ACTIONS_STEP_DEBUG: true
         run: |
           patfile=$(basename ${{github.event.inputs.pat-address}} | while read; do echo -e ${REPLY//%/\\x}; done)
           echo "::set-output name=patfile::$patfile"
           # install bsdiff
-          sudo apt-get install -y bsdiff
+          sudo apt-get install -y bsdiff cpio xz-utils
 
           #ls -al $GITHUB_WORKSPACE/
           mkdir /opt/build
@@ -35,8 +38,25 @@ jobs:
           curl -L ${{github.event.inputs.pat-address}} -o ds.pat
           curl -L ${{github.event.inputs.toolchain}} -o toolchain.txz
           curl -L ${{github.event.inputs.linux-src}} -o linux.tar.xz
+          
+          # download old pat for syno_extract_system_patch # thanks for jumkey's idea.
+          mkdir synoesp
+          curl --location https://global.download.synology.com/download/DSM/release/7.0.1/42218/DSM_DS3622xs%2B_42218.pat --output oldpat.tar.gz
+
+          tar -C./synoesp/ -xf oldpat.tar.gz rd.gz
+          cd synoesp
+          xz -dc < rd.gz >rd 2>/dev/null || echo "extract rd.gz"
+          echo "finish"
+          cpio -idm <rd 2>&1 || echo "extract rd"
+          mkdir extract && cd extract
+          cp ../usr/lib/libcurl.so.4 ../usr/lib/libmbedcrypto.so.5 ../usr/lib/libmbedtls.so.13 ../usr/lib/libmbedx509.so.1 ../usr/lib/libmsgpackc.so.2 ../usr/lib/libsodium.so ../usr/lib/libsynocodesign-ng-virtual-junior-wins.so.7 ../usr/syno/bin/scemd ./
+          ln -s scemd syno_extract_system_patch
+          cd ../..
           mkdir pat
-          tar xf ds.pat -C pat
+          #tar xf ds.pat -C pat
+          ls -lh ./
+          sudo LD_LIBRARY_PATH=synoesp/extract synoesp/extract/syno_extract_system_patch ds.pat pat || echo "extract latest pat"
+          echo "test4"
           # is update_pack
           if [ ! -f "pat/zImage" ]; then
             cd pat
@@ -44,6 +64,7 @@ jobs:
             tar xf data.tar.xz
             cd ..
           fi
+          echo "test5"
           mkdir toolchain
           tar xf toolchain.txz -C toolchain
           mkdir linux-src
