@@ -55,6 +55,3 @@ For more detailed information go to [`FOR_DEVS.md`](./FOR_DEVS.md).
  - Included Docker support
  - Add functions to GRUB config to avoid duplication in configs
  - Add info screen to GRUB boot
-
-## Currently Support Version
- - 6.2.4 / 6.2.4 Update 4 / 7.0 / 7.0.1 (~ Update 3)
