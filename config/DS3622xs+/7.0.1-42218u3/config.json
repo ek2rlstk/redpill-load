@@ -28,7 +28,7 @@
             "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
       	    "@@@COMMON@@@/v7.0.1/ramdisk-002-init-script.patch",
             "@@@COMMON@@@/v7.0.1/ramdisk-003-post-init-script.patch",
-	    "@@@COMMON@@@/ramdisk-004-network-hosts.patch"
+	        "@@@COMMON@@@/ramdisk-004-network-hosts.patch"
         ]
     },
     "synoinfo": {
@@ -43,11 +43,11 @@
         "rss_server": "http://example.com/null.xml",
         "rss_server_ssl": "https://example.com/null.xml",
         "small_info_path": "https://example.com/null",
-	"rss_server_v2": "https://example.com/autoupdate/v2/getList",
-	"security_version_server": "https://example.com/smallupdate",
+	    "rss_server_v2": "https://example.com/autoupdate/v2/getList",
+	    "security_version_server": "https://example.com/smallupdate",
          "updateurl": "http://example.com/",
-	"update_server": "http://example.com/",
-	"update_server_ssl": "https//example.com/",
+	    "update_server": "http://example.com/",
+	    "update_server_ssl": "https//example.com/",
         "myds_region_api_base_url": "https://example.com"
     },
     "grub": {
@@ -59,7 +59,7 @@
     	    "SataPortMap": "1", 
             "DiskIdxMap": "0",
             "mac1": "",
-            "netif_num": 4,
+            "netif_num": 5,
 
             "syno_hw_version": "DS3622xs+",
             "syno_hdd_powerup_seq": 0,
