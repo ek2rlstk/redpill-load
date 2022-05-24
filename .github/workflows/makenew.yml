@@ -49,6 +49,7 @@ jobs:
            DS1621+)
             curl -L https://sourceforge.net/projects/dsgpl/files/Tool%20Chain/DSM%207.0.0%20Tool%20Chains/Intel%20x86%20Linux%204.4.180%20%28V1000%29/v1000-gcc750_glibc226_x86_64-GPL.txz/ -o toolchain.txz
             curl -L https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.180.tar.xz -o linux.tar.xz
+            ;;
            *)
             echo "Please Enter Vaild Model!!!"
             exit 1
