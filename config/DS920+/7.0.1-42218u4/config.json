@@ -1,0 +1,121 @@
+{
+  "os": {
+    "id": "ds920p_42218u4",
+    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42218-4/synology_geminilake_920%2B.pat",
+    "sha256": "a4220ac034d525756e4d463aea3070f7df316d274c2d0a3a2a0e28b34628b58a"
+  },
+
+  "files": {
+    "zlinux": {
+      "name": "zImage",
+      "sha256": "addbe799a7bfe5911eb65ceb56a6159cde28d681f13b32ade9c14dd29f03595b"
+    },
+    "ramdisk": {
+      "name": "rd.gz",
+      "sha256": "fbb45b321ef769958479ed0907d61d6c637f7e569578e6159a22fe215b6c56bf"
+    },
+    "vmlinux": {
+      "sha256": "eeb21246b726215862a613880b0f09e1c0d9e73abbe387ae10789b37f7371124"
+    }
+  },
+
+  "patches": {
+    "zlinux": [
+      "zImage-001-920p-42218u4-ramdisk-and-flag-NOP.bsp"
+    ],
+    "ramdisk": [
+      "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
+      "@@@COMMON@@@/v7.0.1/ramdisk-002-init-script.patch",
+      "@@@COMMON@@@/v7.0.1/ramdisk-003-post-init-script.patch"
+    ]
+  },
+
+  "synoinfo": {
+    "rss_server": "http://example.com/autoupdate/genRSS.php",
+    "rss_server_ssl": "https://example.com/autoupdate/genRSS.php",
+    "small_info_path": "https://example.com/smallupdate",
+    "updateurl": "http://example.com/",
+    "myds_region_api_base_url": "https://example.com/"
+  },
+
+  "grub": {
+    "template": "@@@COMMON@@@/grub-template.conf",
+    "base_cmdline": {
+      "sn": "",
+      "vid": "0x46f4",
+      "pid": "0x0001",
+      "mac1": "",
+      "netif_num": 1,
+
+      "syno_hw_version": "DS920+",
+      "intel_iommu": "igfx_off",
+      "HddEnableDynamicPower": 1,
+      "vender_format_version": 2,
+      "console": "ttyS0,115200n8",
+      "synoboot2": null,
+      "elevator": "elevator",
+      "syno_ttyS0": "serial,0x3f8",
+      "syno_ttyS1": "serial,0x2f8",
+      "root": "/dev/md0",
+      "earlycon": "uart8250,io,0x3f8,115200n8"
+    },
+
+    "menu_entries": {
+      "RedPill DS920+ v7.0.1-42218 Update 4 (USB, Verbose)": {
+        "options": [
+          "savedefault",
+          "set root=(hd0,msdos1)",
+          "echo Loading Linux...",
+          "linux /zImage @@@CMDLINE@@@",
+          "echo Loading initramfs...",
+          "initrd /rd.gz /custom.gz",
+          "echo Starting kernel with USB boot"
+        ],
+        "cmdline": {
+          "earlyprintk": null,
+          "loglevel": 15,
+          "log_buf_len": "32M"
+        }
+      },
+      "RedPill DS920+ v7.0.1-42218 Update 4 (SATA, Verbose)": {
+        "options": [
+          "savedefault",
+          "set root=(hd0,msdos1)",
+          "echo Loading Linux...",
+          "linux /zImage @@@CMDLINE@@@",
+          "echo Loading initramfs...",
+          "initrd /rd.gz /custom.gz",
+          "echo Starting kernel with SATA boot",
+          "echo WARNING: SATA boot support on this platform is experimental!"
+        ],
+        "cmdline": {
+          "earlyprintk": null,
+          "loglevel": 15,
+          "synoboot_satadom": 2,
+          "log_buf_len": "32M"
+        }
+      }
+    }
+  },
+
+  "extra": {
+    "compress_rd": false,
+    "ramdisk_copy": {
+      "@@@EXT@@@/rp-lkm/redpill-linux-v4.4.180+.ko": "usr/lib/modules/rp.ko",
+      "@@@COMMON@@@/iosched-trampoline.sh": "usr/sbin/modprobe"
+    },
+    "bootp1_copy": {
+      "@@@PAT@@@/GRUB_VER": "GRUB_VER",
+      "@@@COMMON@@@/EFI/boot/SynoBootLoader.conf": "EFI/BOOT/",
+      "@@@COMMON@@@/EFI/boot/SynoBootLoader.efi": "EFI/BOOT/"
+    },
+    "bootp2_copy": {
+      "@@@PAT@@@/GRUB_VER": "GRUB_VER",
+      "@@@COMMON@@@/EFI": "EFI",
+      "@@@PAT@@@/grub_cksum.syno": "grub_cksum.syno",
+      "@@@PAT@@@/rd.gz": "rd.gz",
+      "@@@PAT@@@/zImage": "zImage"
+    }
+  }
+}
+

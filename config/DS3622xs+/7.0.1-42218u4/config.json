@@ -1,21 +1,21 @@
 {
     "os": {
-        "id": "ds3622xsp_42218u3",
+        "id": "ds3622xsp_42218u4",
         "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42218-4/synology_broadwellnk_3622xs%2B.pat",
-        "sha256": "d7f7333ff255f617dfc46ef004ea116eabfad41c604a74eb6e16a5df631ef007"
+        "sha256": "2ff4924b13bfee108c4a14276ea9b586b996c0b3b445b4f89792719d2223c2ff"
     },
 
     "files": {
         "zlinux": {
             "name": "zImage",
-            "sha256": "f4451e95bc61f03c3db7ac51c37c07e29c384bffc870219e7c5ebfc06ef24451"
+            "sha256": "de0bcde87cd2d432b38f686f67046df926af39e677a2dd5faf4c426799aa079a"
         },
         "ramdisk": {
             "name": "rd.gz",
-            "sha256": "fb051876bf5fa3711101c12383e9f3a719245be1968317b5756aa74c22f03e14"
+            "sha256": "94ca224699b8eef77ad5cb04aa7340df0a3f2a9486b9d065cfb000fa4c657ddc"
         },
         "vmlinux": {
-            "sha256": "f81f8e8d3fd4cf6bc2db5095762c9e78e704f996c4d6a0a67aeb6d49dc804abc"
+            "sha256": "ba972a64175c1593b96c5bff401a72e9145144016ba33954302897250e2099b7"
         }
     },
 
