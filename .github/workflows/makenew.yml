@@ -64,7 +64,7 @@ jobs:
             sudo LD_LIBRARY_PATH=. ./syno_extract_system -xf ds.pat -C pat
           else
             sudo LD_LIBRARY_PATH=. ./syno_extract_patch -xf ds.pat
-            tar xf flashupdate*.tar
+            tar xf $(find flashupdate*.tar | tail -n 1)
             tar xf content.txz -C pat
           fi
 
