@@ -23,6 +23,7 @@
 "ds3622xsp_42621":     "https://github.com/pocopico/redpill-load/raw/develop/redpill-misc/recipes/universal.json",
 "ds3622xsp_42661":     "https://github.com/pocopico/redpill-load/raw/develop/redpill-misc/recipes/universal.json",
 "ds1621p_42218":      "https://github.com/pocopico/redpill-load/raw/develop/redpill-misc/recipes/universal.json",
+"ds1621p_42218u4":      "https://github.com/pocopico/redpill-load/raw/develop/redpill-misc/recipes/universal.json",
 "ds1621p_42621":      "https://github.com/pocopico/redpill-load/raw/develop/redpill-misc/recipes/universal.json",
 "ds1621p_42661":      "https://github.com/pocopico/redpill-load/raw/develop/redpill-misc/recipes/universal.json",
 "dva3221_42218":      "https://github.com/pocopico/redpill-load/raw/develop/redpill-misc/recipes/universal.json",
@@ -34,6 +35,8 @@
 "ds918p_42218u4":       "https://github.com/pocopico/redpill-load/raw/develop/redpill-misc/recipes/universal.json",
 "ds918p_42621":       "https://github.com/pocopico/redpill-load/raw/develop/redpill-misc/recipes/universal.json",
 "ds918p_42661":       "https://github.com/pocopico/redpill-load/raw/develop/redpill-misc/recipes/universal.json",
+"ds920p_42218":       "https://github.com/pocopico/redpill-load/raw/develop/redpill-misc/recipes/universal.json",
+"ds920p_42218u4":       "https://github.com/pocopico/redpill-load/raw/develop/redpill-misc/recipes/universal.json",
 "ds920p_42621":       "https://github.com/pocopico/redpill-load/raw/develop/redpill-misc/recipes/universal.json",
 "ds920p_42661":       "https://github.com/pocopico/redpill-load/raw/develop/redpill-misc/recipes/universal.json"
    
