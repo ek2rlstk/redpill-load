@@ -211,7 +211,7 @@ if [ ! -d "${BRP_UPAT_DIR}" ]; then
   if [ ! -f "${BRP_UPAT_DIR}/zImage" ]; then
     pr_info "unpack minor update..."
     cd ${BRP_UPAT_DIR}
-    tar xf flashupdate*.tar
+    tar xf $(find flashupdate*.tar | tail -n 1)
     tar xf content.txz
     cd ${BRP_LOAD_DIR}
   fi
