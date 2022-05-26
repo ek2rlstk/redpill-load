@@ -1,6 +1,6 @@
 {
   "id": "thethorgroup.boot-wait",
-  "url": "https://github.com/ek2rlstk/redpill-load/raw/6.2.4u5/redpill-boot-wait/rpext-index.json",
+  "url": "https://github.com/ek2rlstk/redpill-load/raw/6.2.4/redpill-boot-wait/rpext-index.json",
   "info": {
     "name": "RedPill Bootwait",
     "description": "Simple extension which stops the execution early waiting for the boot device to appear",
