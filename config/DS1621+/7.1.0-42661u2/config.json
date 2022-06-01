@@ -1,0 +1,120 @@
+{
+  "os": {
+    "id": "ds1621p_42661u2",
+    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42661-2/synology_v1000_1621%2B.pat",
+    "sha256": "61dde4ef2a70600d41af3cd4076873c007dee5d24d0cbd339cf232fe7f44fce4"
+  },
+
+  "files": {
+    "zlinux": {
+      "name": "zImage",
+      "sha256": "e5d7213554a3984a346af613cf4e422d43a6d82842dc20655d66ef22d81e107f"
+    },
+    "ramdisk": {
+      "name": "rd.gz",
+      "sha256": "f940e7285a59b7a774e98d24972e6eb4a141d84a454be00082b6002bc1d8daa1"
+    },
+    "vmlinux": {
+      "sha256": "eb0ae373aa7f82cd5d50ed590bda9cf899f4fe5523a43308d6d15905470ec0c0"
+    }
+  },
+
+  "patches": {
+    "zlinux": [
+      "zImage-001-1621p-42661u2-ramdisk-and-flag-NOP.bsp"
+    ],
+    "ramdisk": [
+      "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
+      "@@@COMMON@@@/v7.0.1/ramdisk-002-init-script.patch",
+      "@@@COMMON@@@/v7.0.1/ramdisk-003-post-init-script.patch"
+    ]
+  },
+
+  "synoinfo": {
+    "rss_server": "http://example.com/autoupdate/genRSS.php",
+    "rss_server_ssl": "https://example.com/autoupdate/genRSS.php",
+    "small_info_path": "https://example.com/smallupdate",
+    "updateurl": "http://example.com/",
+    "myds_region_api_base_url": "https://example.com/"
+  },
+
+  "grub": {
+    "template": "@@@COMMON@@@/grub-template.conf",
+    "base_cmdline": {
+      "sn": "",
+      "vid": "0x46f4",
+      "pid": "0x0001",
+      "mac1": "",
+      "netif_num": 1,
+
+      "syno_hw_version": "DS1621+",
+      "SMBusHddDynamicPower": 1,
+      "vender_format_version": 2,
+      "console": "ttyS0,115200n8",
+      "synoboot2": null,
+      "elevator": "elevator",
+      "syno_ttyS0": "serial,0x3f8",
+      "syno_ttyS1": "serial,0x2f8",
+      "root": "/dev/md0",
+      "earlycon": "uart8250,io,0x3f8,115200n8"
+    },
+
+    "menu_entries": {
+      "RedPill DS1621+ v7.1.0-42661 Update 2 (USB, Verbose)": {
+        "options": [
+          "savedefault",
+          "set root=(hd0,msdos1)",
+          "echo Loading Linux...",
+          "linux /zImage @@@CMDLINE@@@",
+          "echo Loading initramfs...",
+          "initrd /rd.gz /custom.gz",
+          "echo Starting kernel with USB boot"
+        ],
+        "cmdline": {
+          "earlyprintk": null,
+          "loglevel": 15,
+          "log_buf_len": "32M"
+        }
+      },
+      "RedPill DS1621+ v7.1.0-42661 Update 2 (SATA, Verbose)": {
+        "options": [
+          "savedefault",
+          "set root=(hd0,msdos1)",
+          "echo Loading Linux...",
+          "linux /zImage @@@CMDLINE@@@",
+          "echo Loading initramfs...",
+          "initrd /rd.gz /custom.gz",
+          "echo Starting kernel with SATA boot",
+          "echo WARNING: SATA boot support on this platform is experimental!"
+        ],
+        "cmdline": {
+          "earlyprintk": null,
+          "loglevel": 15,
+          "synoboot_satadom": 2,
+          "log_buf_len": "32M"
+        }
+      }
+    }
+  },
+
+  "extra": {
+    "compress_rd": false,
+    "ramdisk_copy": {
+      "@@@EXT@@@/rp-lkm/redpill-linux-v4.4.180+.ko": "usr/lib/modules/rp.ko",
+      "@@@COMMON@@@/iosched-trampoline.sh": "usr/sbin/modprobe"
+    },
+    "bootp1_copy": {
+      "@@@PAT@@@/GRUB_VER": "GRUB_VER",
+      "@@@COMMON@@@/EFI/boot/SynoBootLoader.conf": "EFI/BOOT/",
+      "@@@COMMON@@@/EFI/boot/SynoBootLoader.efi": "EFI/BOOT/"
+    },
+    "bootp2_copy": {
+      "@@@PAT@@@/GRUB_VER": "GRUB_VER",
+      "@@@COMMON@@@/EFI": "EFI",
+      "@@@PAT@@@/grub_cksum.syno": "grub_cksum.syno",
+      "@@@PAT@@@/rd.gz": "rd.gz",
+      "@@@PAT@@@/zImage": "zImage"
+    }
+  }
+}
+
