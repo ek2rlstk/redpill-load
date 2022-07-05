@@ -1,27 +1,27 @@
 {
   "os": {
-    "id": "ds918p_42218u5",
-    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42218-5/synology_apollolake_918%2B.pat",
-    "sha256": "ebe79babc28e09d9f0300bb24c74189be56d6ac4aab554d0a179c74e3b69c463"
+    "id": "ds918p_42661u",
+    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42661-3/synology_apollolake_918%2B.pat",
+    "sha256": "812466acb746525d3d0961b673ba2864a8e88f9e50c9d2cce196fd9a02cd433d"
   },
 
   "files": {
     "zlinux": {
       "name": "zImage",
-      "sha256": "e3f8367fd662d9f0a93a2fa579e37fc915695324cb0a3a98f0edf68045071f8a"
+      "sha256": "060e14551d24ed72c1122c6695e714c297f6d2d26e4707eede9aa390e3381b4e"
     },
     "ramdisk": {
       "name": "rd.gz",
-      "sha256": "ea49dd27e810222cbaa1aa643e45883c2c92daa3882e498c47ae6d1e0bd36513"
+      "sha256": "71cd6b2b13f3904b6dac45de0193a1992d578f0078418982b62157d84bc1f218"
     },
     "vmlinux": {
-      "sha256": "4fc85522924b647617974e71ca1008e311e0589cabc9b5b754beb5c79c71a023"
+      "sha256": "4c81002d3a5a67968f8f43f33ae73185d07cb9782c5ebc83a18fe09b2f8ca9b6"
     }
   },
 
   "patches": {
     "zlinux": [
-      "zImage-001-918p-42218u5-ramdisk-and-flag-NOP.bsp"
+      "zImage-001-918p-42661u3-ramdisk-and-flag-NOP.bsp"
     ],
     "ramdisk": [
       "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
@@ -68,7 +68,7 @@
     },
 
     "menu_entries": {
-      "RedPill DS918+ v7.0.1-42218 Update 5 (USB, Verbose)": {
+      "RedPill DS918+ v7.1.0-42661 Update 3 (USB, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
@@ -84,7 +84,7 @@
           "log_buf_len": "32M"
         }
       },
-      "RedPill DS918+ v7.0.1-42218 Update 5 (SATA, Verbose)": {
+      "RedPill DS918+ v7.1.0-42661 Update 3 (SATA, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
