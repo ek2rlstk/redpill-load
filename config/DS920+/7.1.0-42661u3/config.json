@@ -1,27 +1,27 @@
 {
   "os": {
-    "id": "ds920p_42661u2",
-    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42661-2/synology_geminilake_920%2B.pat",
-    "sha256": "fe5bed72f6622d7fa2c655d55f9f9d186d625085609025db54fb4183a315ce41"
+    "id": "ds920p_42661u3",
+    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42661-3/synology_geminilake_920%2B.pat",
+    "sha256": "ea900ccc142251b8ab7a257e07047205288f314637a2e526a3f5c8152ada3a7d"
   },
 
   "files": {
     "zlinux": {
       "name": "zImage",
-      "sha256": "a31e91a62ab6f3ff986bc7fcfde0a56a292c15e17735e7b5fad573d333cf7de4"
+      "sha256": "2782bef58aa471b12abedd5529a25a9d2f3cc029c4660eaadca15cad5bcc98ad"
     },
     "ramdisk": {
       "name": "rd.gz",
-      "sha256": "d69c5eb97d8d7bd40f89ea751b5da1559c6f64fd6f4c8cf8dd5b0db514dfa3d4"
+      "sha256": "3e1321e977448988f0d9fdb8e7bce2501c5580ffb5daa8d0d70622c12fd5a538"
     },
     "vmlinux": {
-      "sha256": "9e040190927059dd5bdbe94befcc9e0d0bf34a76a2fb051af17e9e972e4b5f55"
+      "sha256": "e7a838fe8556095040c2ae68fb9c7f2e540a43c6e3afd88fef119c02925174ee"
     }
   },
 
   "patches": {
     "zlinux": [
-      "zImage-001-920p-42661u2-ramdisk-and-flag-NOP.bsp"
+      "zImage-001-920p-42661u3-ramdisk-and-flag-NOP.bsp"
     ],
     "ramdisk": [
       "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
@@ -69,7 +69,7 @@
     },
 
     "menu_entries": {
-      "RedPill DS920+ v7.1.0-42661 Update 2 (USB, Verbose)": {
+      "RedPill DS920+ v7.1.0-42661 Update 3 (USB, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
@@ -85,7 +85,7 @@
           "log_buf_len": "32M"
         }
       },
-      "RedPill DS920+ v7.1.0-42661 Update 2 (SATA, Verbose)": {
+      "RedPill DS920+ v7.1.0-42661 Update 3 (SATA, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",

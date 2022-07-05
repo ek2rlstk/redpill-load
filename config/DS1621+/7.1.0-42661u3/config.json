@@ -1,27 +1,27 @@
 {
   "os": {
-    "id": "ds1621p_42661u2",
-    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42661-2/synology_v1000_1621%2B.pat",
-    "sha256": "61dde4ef2a70600d41af3cd4076873c007dee5d24d0cbd339cf232fe7f44fce4"
+    "id": "ds1621p_42661u3",
+    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42661-3/synology_v1000_1621%2B.pat",
+    "sha256": "79ed8230e6072c71d5bc0e721b7f535a4ac7f59dde725b6844f16b8d87ff1699"
   },
 
   "files": {
     "zlinux": {
       "name": "zImage",
-      "sha256": "e5d7213554a3984a346af613cf4e422d43a6d82842dc20655d66ef22d81e107f"
+      "sha256": "239045fb357ad09e9fe7d7f2bbcdf159e171ab9283fa9dbd289277ffc568587d"
     },
     "ramdisk": {
       "name": "rd.gz",
-      "sha256": "f940e7285a59b7a774e98d24972e6eb4a141d84a454be00082b6002bc1d8daa1"
+      "sha256": "45f58bb8765e5352d8a653af2ae2b925e13c941655945c69ea47f11afa72e6f4"
     },
     "vmlinux": {
-      "sha256": "eb0ae373aa7f82cd5d50ed590bda9cf899f4fe5523a43308d6d15905470ec0c0"
+      "sha256": "b09848e26d8fa95014510ae1cb83d65890517682a6b7828e932931ac10264f1d"
     }
   },
 
   "patches": {
     "zlinux": [
-      "zImage-001-1621p-42661u2-ramdisk-and-flag-NOP.bsp"
+      "zImage-001-1621p-42661u3-ramdisk-and-flag-NOP.bsp"
     ],
     "ramdisk": [
       "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
@@ -60,7 +60,7 @@
     },
 
     "menu_entries": {
-      "RedPill DS1621+ v7.1.0-42661 Update 2 (USB, Verbose)": {
+      "RedPill DS1621+ v7.1.0-42661 Update 3 (USB, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
@@ -76,7 +76,7 @@
           "log_buf_len": "32M"
         }
       },
-      "RedPill DS1621+ v7.1.0-42661 Update 2 (SATA, Verbose)": {
+      "RedPill DS1621+ v7.1.0-42661 Update 3 (SATA, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
