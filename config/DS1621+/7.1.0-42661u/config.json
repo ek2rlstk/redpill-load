@@ -1,8 +1,8 @@
 {
   "os": {
     "id": "ds1621p_42661u",
-    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42661-3/synology_v1000_1621%2B.pat",
-    "sha256": "79ed8230e6072c71d5bc0e721b7f535a4ac7f59dde725b6844f16b8d87ff1699"
+    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42661-4/synology_v1000_1621%2B.pat",
+    "sha256": "6c414427724f888b065996171a0199b65a06d3de93e599828ef3ab20786ee2d1"
   },
 
   "files": {
@@ -21,7 +21,7 @@
 
   "patches": {
     "zlinux": [
-      "zImage-001-1621p-42661u3-ramdisk-and-flag-NOP.bsp"
+      "zImage-001-1621p-42661u4-ramdisk-and-flag-NOP.bsp"
     ],
     "ramdisk": [
       "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
@@ -60,7 +60,7 @@
     },
 
     "menu_entries": {
-      "RedPill DS1621+ v7.1.0-42661 Update 3 (USB, Verbose)": {
+      "RedPill DS1621+ v7.1.0-42661 Update 4 (USB, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
@@ -76,7 +76,7 @@
           "log_buf_len": "32M"
         }
       },
-      "RedPill DS1621+ v7.1.0-42661 Update 3 (SATA, Verbose)": {
+      "RedPill DS1621+ v7.1.0-42661 Update 4 (SATA, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
