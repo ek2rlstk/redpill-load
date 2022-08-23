@@ -142,6 +142,7 @@ jobs:
           sudo rm -rf /opt/build/pat
           sudo rm -rf /opt/build/toolchain
           sudo rm -rf /opt/build/linux-src
+          sudo rm -rf /opt/build/recreate-zImage
 
           # DS920+
           dsmodel="DS920+"
@@ -184,9 +185,6 @@ jobs:
           sha256sum vmlinux >> checksum.sha256
           # patch vmlinux
           # vmlinux_mod.bin
-          curl -L https://github.com/jumkey/dsm-research/raw/master/tools/common.php -o common.php
-          curl -L https://github.com/jumkey/dsm-research/raw/master/tools/patch-ramdisk-check.php -o patch-ramdisk-check.php
-          curl -L https://github.com/jumkey/dsm-research/raw/master/tools/patch-boot_params-check.php -o patch-boot_params-check.php
           php patch-boot_params-check.php vmlinux vmlinux-mod
           php patch-ramdisk-check.php vmlinux-mod vmlinux_mod.bin
 
@@ -245,6 +243,7 @@ jobs:
           sudo rm -rf /opt/build/pat
           sudo rm -rf /opt/build/toolchain
           sudo rm -rf /opt/build/linux-src
+          sudo rm -rf /opt/build/recreate-zImage
 
           # DS3622xs+
           dsmodel="DS3622xs+"
@@ -287,9 +286,6 @@ jobs:
           sha256sum vmlinux >> checksum.sha256
           # patch vmlinux
           # vmlinux_mod.bin
-          curl -L https://github.com/jumkey/dsm-research/raw/master/tools/common.php -o common.php
-          curl -L https://github.com/jumkey/dsm-research/raw/master/tools/patch-ramdisk-check.php -o patch-ramdisk-check.php
-          curl -L https://github.com/jumkey/dsm-research/raw/master/tools/patch-boot_params-check.php -o patch-boot_params-check.php
           php patch-boot_params-check.php vmlinux vmlinux-mod
           php patch-ramdisk-check.php vmlinux-mod vmlinux_mod.bin
 
@@ -348,6 +344,7 @@ jobs:
           sudo rm -rf /opt/build/pat
           sudo rm -rf /opt/build/toolchain
           sudo rm -rf /opt/build/linux-src
+          sudo rm -rf /opt/build/recreate-zImage
 
           # DS1621+
           dsmodel="DS1621+"
@@ -390,9 +387,6 @@ jobs:
           sha256sum vmlinux >> checksum.sha256
           # patch vmlinux
           # vmlinux_mod.bin
-          curl -L https://github.com/jumkey/dsm-research/raw/master/tools/common.php -o common.php
-          curl -L https://github.com/jumkey/dsm-research/raw/master/tools/patch-ramdisk-check.php -o patch-ramdisk-check.php
-          curl -L https://github.com/jumkey/dsm-research/raw/master/tools/patch-boot_params-check.php -o patch-boot_params-check.php
           php patch-boot_params-check.php vmlinux vmlinux-mod
           php patch-ramdisk-check.php vmlinux-mod vmlinux_mod.bin
 
