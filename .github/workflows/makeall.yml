@@ -129,12 +129,13 @@ jobs:
           bsdiff pat/zImage zImage_mod diff.bsp
 
           echo '---copy file---'
-          cp diff.bsp /opt/dist/ds918
-          cp checksum.sha256 /opt/dist/ds918
+          cp diff.bsp /opt/dist/ds918.bsp
+          cp checksum.sha256 /opt/dist/ds918.sha256
           echo '---END---'
           sudo rm /opt/build/checksum.sha256
           sudo rm /opt/build/ds.pat
           sudo rm /opt/build/diff.bsp
+          sudo rm /opt/build/zImage_mod
           sudo rm /opt/build/vmlinux
           sudo rm /opt/build/vmlinux-mod
           sudo rm /opt/build/vmlinux_mod.bin
@@ -230,12 +231,13 @@ jobs:
           bsdiff pat/zImage zImage_mod diff.bsp
 
           echo '---copy file---'
-          cp diff.bsp /opt/dist/ds920
-          cp checksum.sha256 /opt/dist/ds920
+          cp diff.bsp /opt/dist/ds920.bsp
+          cp checksum.sha256 /opt/dist/ds920.sha256
           echo '---END---'
           sudo rm /opt/build/checksum.sha256
           sudo rm /opt/build/ds.pat
           sudo rm /opt/build/diff.bsp
+          sudo rm /opt/build/zImage_mod
           sudo rm /opt/build/vmlinux
           sudo rm /opt/build/vmlinux-mod
           sudo rm /opt/build/vmlinux_mod.bin
@@ -331,12 +333,13 @@ jobs:
           bsdiff pat/zImage zImage_mod diff.bsp
 
           echo '---copy file---'
-          cp diff.bsp /opt/dist/ds3622
-          cp checksum.sha256 /opt/dist/ds3622
+          cp diff.bsp /opt/dist/ds3622.bsp
+          cp checksum.sha256 /opt/dist/ds3622.sha256
           echo '---END---'
           sudo rm /opt/build/checksum.sha256
           sudo rm /opt/build/ds.pat
           sudo rm /opt/build/diff.bsp
+          sudo rm /opt/build/zImage_mod
           sudo rm /opt/build/vmlinux
           sudo rm /opt/build/vmlinux-mod
           sudo rm /opt/build/vmlinux_mod.bin
@@ -432,8 +435,8 @@ jobs:
           bsdiff pat/zImage zImage_mod diff.bsp
 
           echo '---copy file---'
-          cp diff.bsp /opt/dist/ds1621
-          cp checksum.sha256 /opt/dist/ds1621
+          cp diff.bsp /opt/dist/ds1621.bsp
+          cp checksum.sha256 /opt/dist/ds1621.sha256
           echo '---END---'
 
       - name: Upload
