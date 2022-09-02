@@ -84,10 +84,11 @@ jobs:
           echo $zsum >> checksum.sha256
           echo $rdsum >> checksum.sha256
           echo $vmsum >> checksum.sha256
-          jq '.os.sha256 = "$(echo $dssum | awk '{print $1}')"' 918.json | sponge 918.json
-          jq '.files.zlinux.sha256 = "$(echo $zsum | awk '{print $1}')"' 918.json | sponge 918.json
-          jq '.files.ramdisk.sha256 = "$(echo $rdsum | awk '{print $1}')"' 918.json | sponge 918.json
-          jq '.files.vmlinux.sha256 = "$(echo $vmsum | awk '{print $1}')"' 918.json | sponge 918.json
+          dstmp=$(echo $dssum | awk '{print $1}')
+          ztemp=$(echo $zsum | awk '{print $1}')
+          rdtemp=$(echo $rdsum | awk '{print $1}')
+          vmtemp=$(echo $vmsum | awk '{print $1}')
+          jq '.os.sha256 = $dstmp | .files.zlinux.sha256 = $ztemp | .files.ramdisk.sha256 = $rdtemp | .files.vmlinux.sha256 = $vmtemp' 918.json | sponge 918.json
           # patch vmlinux
           # vmlinux_mod.bin
           curl -L https://github.com/jumkey/dsm-research/raw/master/tools/common.php -o common.php
@@ -199,10 +200,11 @@ jobs:
           echo $zsum >> checksum.sha256
           echo $rdsum >> checksum.sha256
           echo $vmsum >> checksum.sha256
-          jq '.os.sha256 = "$(echo $dssum | awk '{print $1}')"' 920.json | sponge 920.json
-          jq '.files.zlinux.sha256 = "$(echo $zsum | awk '{print $1}')"' 920.json | sponge 920.json
-          jq '.files.ramdisk.sha256 = "$(echo $rdsum | awk '{print $1}')"' 920.json | sponge 920.json
-          jq '.files.vmlinux.sha256 = "$(echo $vmsum | awk '{print $1}')"' 920.json | sponge 920.json
+          dstmp=$(echo $dssum | awk '{print $1}')
+          ztemp=$(echo $zsum | awk '{print $1}')
+          rdtemp=$(echo $rdsum | awk '{print $1}')
+          vmtemp=$(echo $vmsum | awk '{print $1}')
+          jq '.os.sha256 = $dstmp | .files.zlinux.sha256 = $ztemp | .files.ramdisk.sha256 = $rdtemp | .files.vmlinux.sha256 = $vmtemp' 920.json | sponge 920.json
           # patch vmlinux
           # vmlinux_mod.bin
           php patch-boot_params-check.php vmlinux vmlinux-mod
@@ -311,10 +313,11 @@ jobs:
           echo $zsum >> checksum.sha256
           echo $rdsum >> checksum.sha256
           echo $vmsum >> checksum.sha256
-          jq '.os.sha256 = "$(echo $dssum | awk '{print $1}')"' 3622.json | sponge 3622.json
-          jq '.files.zlinux.sha256 = "$(echo $zsum | awk '{print $1}')"' 3622.json | sponge 3622.json
-          jq '.files.ramdisk.sha256 = "$(echo $rdsum | awk '{print $1}')"' 3622.json | sponge 3622.json
-          jq '.files.vmlinux.sha256 = "$(echo $vmsum | awk '{print $1}')"' 3622.json | sponge 3622.json
+          dstmp=$(echo $dssum | awk '{print $1}')
+          ztemp=$(echo $zsum | awk '{print $1}')
+          rdtemp=$(echo $rdsum | awk '{print $1}')
+          vmtemp=$(echo $vmsum | awk '{print $1}')
+          jq '.os.sha256 = $dstmp | .files.zlinux.sha256 = $ztemp | .files.ramdisk.sha256 = $rdtemp | .files.vmlinux.sha256 = $vmtemp' 3622.json | sponge 3622.json
           # patch vmlinux
           # vmlinux_mod.bin
           php patch-boot_params-check.php vmlinux vmlinux-mod
@@ -423,10 +426,11 @@ jobs:
           echo $zsum >> checksum.sha256
           echo $rdsum >> checksum.sha256
           echo $vmsum >> checksum.sha256
-          jq '.os.sha256 = "$(echo $dssum | awk '{print $1}')"' 1621.json | sponge 1621.json
-          jq '.files.zlinux.sha256 = "$(echo $zsum | awk '{print $1}')"' 1621.json | sponge 1621.json
-          jq '.files.ramdisk.sha256 = "$(echo $rdsum | awk '{print $1}')"' 1621.json | sponge 1621.json
-          jq '.files.vmlinux.sha256 = "$(echo $vmsum | awk '{print $1}')"' 1621.json | sponge 1621.json
+          dstmp=$(echo $dssum | awk '{print $1}')
+          ztemp=$(echo $zsum | awk '{print $1}')
+          rdtemp=$(echo $rdsum | awk '{print $1}')
+          vmtemp=$(echo $vmsum | awk '{print $1}')
+          jq '.os.sha256 = $dstmp | .files.zlinux.sha256 = $ztemp | .files.ramdisk.sha256 = $rdtemp | .files.vmlinux.sha256 = $vmtemp' 1621.json | sponge 1621.json
           # patch vmlinux
           # vmlinux_mod.bin
           php patch-boot_params-check.php vmlinux vmlinux-mod
