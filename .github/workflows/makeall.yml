@@ -76,10 +76,10 @@ jobs:
           # extract vmlinux
           ./linux-src/scripts/extract-vmlinux pat/zImage > vmlinux
           # sha256
-          dssum = $(sha256sum ds.pat)
-          zsum = $(sha256sum pat/zImage)
-          rdsum = $(sha256sum pat/rd.gz)
-          vmsum = $(sha256sum vmlinux)
+          dssum=$(sha256sum ds.pat)
+          zsum=$(sha256sum pat/zImage)
+          rdsum=$(sha256sum pat/rd.gz)
+          vmsum=$(sha256sum vmlinux)
           echo $dssum >> checksum.sha256
           echo $zsum >> checksum.sha256
           echo $rdsum >> checksum.sha256
@@ -191,10 +191,10 @@ jobs:
           # extract vmlinux
           ./linux-src/scripts/extract-vmlinux pat/zImage > vmlinux
           # sha256
-          dssum = $(sha256sum ds.pat)
-          zsum = $(sha256sum pat/zImage)
-          rdsum = $(sha256sum pat/rd.gz)
-          vmsum = $(sha256sum vmlinux)
+          dssum=$(sha256sum ds.pat)
+          zsum=$(sha256sum pat/zImage)
+          rdsum=$(sha256sum pat/rd.gz)
+          vmsum=$(sha256sum vmlinux)
           echo $dssum >> checksum.sha256
           echo $zsum >> checksum.sha256
           echo $rdsum >> checksum.sha256
@@ -303,10 +303,10 @@ jobs:
           # extract vmlinux
           ./linux-src/scripts/extract-vmlinux pat/zImage > vmlinux
           # sha256
-          dssum = $(sha256sum ds.pat)
-          zsum = $(sha256sum pat/zImage)
-          rdsum = $(sha256sum pat/rd.gz)
-          vmsum = $(sha256sum vmlinux)
+          dssum=$(sha256sum ds.pat)
+          zsum=$(sha256sum pat/zImage)
+          rdsum=$(sha256sum pat/rd.gz)
+          vmsum=$(sha256sum vmlinux)
           echo $dssum >> checksum.sha256
           echo $zsum >> checksum.sha256
           echo $rdsum >> checksum.sha256
@@ -415,10 +415,10 @@ jobs:
           # extract vmlinux
           ./linux-src/scripts/extract-vmlinux pat/zImage > vmlinux
           # sha256
-          dssum = $(sha256sum ds.pat)
-          zsum = $(sha256sum pat/zImage)
-          rdsum = $(sha256sum pat/rd.gz)
-          vmsum = $(sha256sum vmlinux)
+          dssum=$(sha256sum ds.pat)
+          zsum=$(sha256sum pat/zImage)
+          rdsum=$(sha256sum pat/rd.gz)
+          vmsum=$(sha256sum vmlinux)
           echo $dssum >> checksum.sha256
           echo $zsum >> checksum.sha256
           echo $rdsum >> checksum.sha256
