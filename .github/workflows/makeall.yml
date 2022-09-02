@@ -88,7 +88,7 @@ jobs:
           ztemp=$(echo $zsum | awk '{print $1}')
           rdtemp=$(echo $rdsum | awk '{print $1}')
           vmtemp=$(echo $vmsum | awk '{print $1}')
-          jq --arg dst "$dstmp" --arg zt "$ztemp" --arg rdt "$rdtemp" --arg vmt "$vmtemp" '.os.sha256 = $dst | .files.zlinux.sha256 = $zt | .files.ramdisk.sha256 = $rdt | .files.vmlinux.sha256 = $vmt' 918.json | sponge 918.json
+          jq --arg patadd "$pat_address" --arg dst "$dstmp" --arg zt "$ztemp" --arg rdt "$rdtemp" --arg vmt "$vmtemp" '.os.pat_url = $patadd | .os.sha256 = $dst | .files.zlinux.sha256 = $zt | .files.ramdisk.sha256 = $rdt | .files.vmlinux.sha256 = $vmt' 918.json | sponge 918.json
           # patch vmlinux
           # vmlinux_mod.bin
           curl -L https://github.com/jumkey/dsm-research/raw/master/tools/common.php -o common.php
@@ -204,7 +204,7 @@ jobs:
           ztemp=$(echo $zsum | awk '{print $1}')
           rdtemp=$(echo $rdsum | awk '{print $1}')
           vmtemp=$(echo $vmsum | awk '{print $1}')
-          jq --arg dst "$dstmp" --arg zt "$ztemp" --arg rdt "$rdtemp" --arg vmt "$vmtemp" '.os.sha256 = $dst | .files.zlinux.sha256 = $zt | .files.ramdisk.sha256 = $rdt | .files.vmlinux.sha256 = $vmt' 920.json | sponge 920.json
+          jq --arg patadd "$pat_address" --arg dst "$dstmp" --arg zt "$ztemp" --arg rdt "$rdtemp" --arg vmt "$vmtemp" '.os.pat_url = $patadd | .os.sha256 = $dst | .files.zlinux.sha256 = $zt | .files.ramdisk.sha256 = $rdt | .files.vmlinux.sha256 = $vmt' 920.json | sponge 920.json
           # patch vmlinux
           # vmlinux_mod.bin
           php patch-boot_params-check.php vmlinux vmlinux-mod
@@ -317,7 +317,7 @@ jobs:
           ztemp=$(echo $zsum | awk '{print $1}')
           rdtemp=$(echo $rdsum | awk '{print $1}')
           vmtemp=$(echo $vmsum | awk '{print $1}')
-          jq --arg dst "$dstmp" --arg zt "$ztemp" --arg rdt "$rdtemp" --arg vmt "$vmtemp" '.os.sha256 = $dst | .files.zlinux.sha256 = $zt | .files.ramdisk.sha256 = $rdt | .files.vmlinux.sha256 = $vmt' 3622.json | sponge 3622.json
+          jq --arg patadd "$pat_address" --arg dst "$dstmp" --arg zt "$ztemp" --arg rdt "$rdtemp" --arg vmt "$vmtemp" '.os.pat_url = $patadd | .os.sha256 = $dst | .files.zlinux.sha256 = $zt | .files.ramdisk.sha256 = $rdt | .files.vmlinux.sha256 = $vmt' 3622.json | sponge 3622.json
           # patch vmlinux
           # vmlinux_mod.bin
           php patch-boot_params-check.php vmlinux vmlinux-mod
@@ -430,7 +430,7 @@ jobs:
           ztemp=$(echo $zsum | awk '{print $1}')
           rdtemp=$(echo $rdsum | awk '{print $1}')
           vmtemp=$(echo $vmsum | awk '{print $1}')
-          jq --arg dst "$dstmp" --arg zt "$ztemp" --arg rdt "$rdtemp" --arg vmt "$vmtemp" '.os.sha256 = $dst | .files.zlinux.sha256 = $zt | .files.ramdisk.sha256 = $rdt | .files.vmlinux.sha256 = $vmt' 1621.json | sponge 1621.json
+          jq --arg patadd "$pat_address" --arg dst "$dstmp" --arg zt "$ztemp" --arg rdt "$rdtemp" --arg vmt "$vmtemp" '.os.pat_url = $patadd | .os.sha256 = $dst | .files.zlinux.sha256 = $zt | .files.ramdisk.sha256 = $rdt | .files.vmlinux.sha256 = $vmt' 1621.json | sponge 1621.json
           # patch vmlinux
           # vmlinux_mod.bin
           php patch-boot_params-check.php vmlinux vmlinux-mod
