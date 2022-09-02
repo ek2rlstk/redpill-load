@@ -18,7 +18,7 @@ jobs:
           patfile=${{github.event.inputs.dsm}}
           echo "::set-output name=patfile::$patfile"
           # install bsdiff
-          sudo apt-get install -y bsdiff
+          sudo apt-get install -y bsdiff jq moreutils
 
           dsmos=($(echo $patfile | tr "-" "\n"))
           major=${dsmos[0]} # 7.1.0
@@ -53,6 +53,7 @@ jobs:
           curl -L https://sourceforge.net/projects/dsgpl/files/Tool%20Chain/DSM%207.0.0%20Tool%20Chains/Intel%20x86%20Linux%204.4.180%20%28Apollolake%29/apollolake-gcc750_glibc226_x86_64-GPL.txz/ -o toolchain.txz
           curl -L https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.180.tar.xz -o linux.tar.xz
           curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-loader-action/master/misc --output misc
+          curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-load/develop-jun/config/DS918%2B/7.1.0-42661/config.json -o 918.json
           base64 -d misc > patutils.tar
           tar xf patutils.tar
           sudo chmod 777 syno_extract_system
@@ -75,10 +76,18 @@ jobs:
           # extract vmlinux
           ./linux-src/scripts/extract-vmlinux pat/zImage > vmlinux
           # sha256
-          sha256sum ds.pat >> checksum.sha256
-          sha256sum pat/zImage >> checksum.sha256
-          sha256sum pat/rd.gz >> checksum.sha256
-          sha256sum vmlinux >> checksum.sha256
+          dssum = $(sha256sum ds.pat)
+          zsum = $(sha256sum pat/zImage)
+          rdsum = $(sha256sum pat/rd.gz)
+          vmsum = $(sha256sum vmlinux)
+          echo $dssum >> checksum.sha256
+          echo $zsum >> checksum.sha256
+          echo $rdsum >> checksum.sha256
+          echo $vmsum >> checksum.sha256
+          jq '.os.sha256 = "$(echo $dssum | awk '{print $1}')"' 918.json | sponge 918.json
+          jq '.files.zlinux.sha256 = "$(echo $zsum | awk '{print $1}')"' 918.json | sponge 918.json
+          jq '.files.ramdisk.sha256 = "$(echo $rdsum | awk '{print $1}')"' 918.json | sponge 918.json
+          jq '.files.vmlinux.sha256 = "$(echo $vmsum | awk '{print $1}')"' 918.json | sponge 918.json
           # patch vmlinux
           # vmlinux_mod.bin
           curl -L https://github.com/jumkey/dsm-research/raw/master/tools/common.php -o common.php
@@ -131,6 +140,7 @@ jobs:
           echo '---copy file---'
           cp diff.bsp /opt/dist/ds918.bsp
           cp checksum.sha256 /opt/dist/ds918.sha256
+          cp 918.json /opt/dist/918.json
           echo '---END---'
           sudo rm /opt/build/checksum.sha256
           sudo rm /opt/build/ds.pat
@@ -162,6 +172,7 @@ jobs:
 
           curl -L ${pat_address} -o ds.pat
           curl -L https://sourceforge.net/projects/dsgpl/files/Tool%20Chain/DSM%207.0.0%20Tool%20Chains/Intel%20x86%20Linux%204.4.180%20%28GeminiLake%29/geminilake-gcc750_glibc226_x86_64-GPL.txz/ -o toolchain.txz
+          curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-load/develop-jun/config/DS920%2B/7.1.0-42661/config.json -o 920.json
           mkdir pat
 
           if [ $minor -ne 0 ]; then
@@ -180,10 +191,18 @@ jobs:
           # extract vmlinux
           ./linux-src/scripts/extract-vmlinux pat/zImage > vmlinux
           # sha256
-          sha256sum ds.pat >> checksum.sha256
-          sha256sum pat/zImage >> checksum.sha256
-          sha256sum pat/rd.gz >> checksum.sha256
-          sha256sum vmlinux >> checksum.sha256
+          dssum = $(sha256sum ds.pat)
+          zsum = $(sha256sum pat/zImage)
+          rdsum = $(sha256sum pat/rd.gz)
+          vmsum = $(sha256sum vmlinux)
+          echo $dssum >> checksum.sha256
+          echo $zsum >> checksum.sha256
+          echo $rdsum >> checksum.sha256
+          echo $vmsum >> checksum.sha256
+          jq '.os.sha256 = "$(echo $dssum | awk '{print $1}')"' 920.json | sponge 920.json
+          jq '.files.zlinux.sha256 = "$(echo $zsum | awk '{print $1}')"' 920.json | sponge 920.json
+          jq '.files.ramdisk.sha256 = "$(echo $rdsum | awk '{print $1}')"' 920.json | sponge 920.json
+          jq '.files.vmlinux.sha256 = "$(echo $vmsum | awk '{print $1}')"' 920.json | sponge 920.json
           # patch vmlinux
           # vmlinux_mod.bin
           php patch-boot_params-check.php vmlinux vmlinux-mod
@@ -233,6 +252,7 @@ jobs:
           echo '---copy file---'
           cp diff.bsp /opt/dist/ds920.bsp
           cp checksum.sha256 /opt/dist/ds920.sha256
+          cp 920.json /opt/dist/920.json
           echo '---END---'
           sudo rm /opt/build/checksum.sha256
           sudo rm /opt/build/ds.pat
@@ -264,6 +284,7 @@ jobs:
 
           curl -L ${pat_address} -o ds.pat
           curl -L https://sourceforge.net/projects/dsgpl/files/Tool%20Chain/DSM%207.0.0%20Tool%20Chains/Intel%20x86%20Linux%204.4.180%20%28Broadwellnk%29/broadwellnk-gcc750_glibc226_x86_64-GPL.txz/ -o toolchain.txz
+          curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-load/develop-jun/config/DS3622xs%2B/7.1.0-42661/config.json -o 3622.json
           mkdir pat
 
           if [ $minor -ne 0 ]; then
@@ -282,10 +303,18 @@ jobs:
           # extract vmlinux
           ./linux-src/scripts/extract-vmlinux pat/zImage > vmlinux
           # sha256
-          sha256sum ds.pat >> checksum.sha256
-          sha256sum pat/zImage >> checksum.sha256
-          sha256sum pat/rd.gz >> checksum.sha256
-          sha256sum vmlinux >> checksum.sha256
+          dssum = $(sha256sum ds.pat)
+          zsum = $(sha256sum pat/zImage)
+          rdsum = $(sha256sum pat/rd.gz)
+          vmsum = $(sha256sum vmlinux)
+          echo $dssum >> checksum.sha256
+          echo $zsum >> checksum.sha256
+          echo $rdsum >> checksum.sha256
+          echo $vmsum >> checksum.sha256
+          jq '.os.sha256 = "$(echo $dssum | awk '{print $1}')"' 3622.json | sponge 3622.json
+          jq '.files.zlinux.sha256 = "$(echo $zsum | awk '{print $1}')"' 3622.json | sponge 3622.json
+          jq '.files.ramdisk.sha256 = "$(echo $rdsum | awk '{print $1}')"' 3622.json | sponge 3622.json
+          jq '.files.vmlinux.sha256 = "$(echo $vmsum | awk '{print $1}')"' 3622.json | sponge 3622.json
           # patch vmlinux
           # vmlinux_mod.bin
           php patch-boot_params-check.php vmlinux vmlinux-mod
@@ -335,6 +364,7 @@ jobs:
           echo '---copy file---'
           cp diff.bsp /opt/dist/ds3622.bsp
           cp checksum.sha256 /opt/dist/ds3622.sha256
+          cp 3622.json /opt/dist/3622.json
           echo '---END---'
           sudo rm /opt/build/checksum.sha256
           sudo rm /opt/build/ds.pat
@@ -366,6 +396,7 @@ jobs:
 
           curl -L ${pat_address} -o ds.pat
           curl -L https://sourceforge.net/projects/dsgpl/files/Tool%20Chain/DSM%207.0.0%20Tool%20Chains/Intel%20x86%20Linux%204.4.180%20%28V1000%29/v1000-gcc750_glibc226_x86_64-GPL.txz/ -o toolchain.txz
+          curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-load/develop-jun/config/DS1621%2B/7.1.0-42661/config.json -o 1621.json
           mkdir pat
 
           if [ $minor -ne 0 ]; then
@@ -384,10 +415,18 @@ jobs:
           # extract vmlinux
           ./linux-src/scripts/extract-vmlinux pat/zImage > vmlinux
           # sha256
-          sha256sum ds.pat >> checksum.sha256
-          sha256sum pat/zImage >> checksum.sha256
-          sha256sum pat/rd.gz >> checksum.sha256
-          sha256sum vmlinux >> checksum.sha256
+          dssum = $(sha256sum ds.pat)
+          zsum = $(sha256sum pat/zImage)
+          rdsum = $(sha256sum pat/rd.gz)
+          vmsum = $(sha256sum vmlinux)
+          echo $dssum >> checksum.sha256
+          echo $zsum >> checksum.sha256
+          echo $rdsum >> checksum.sha256
+          echo $vmsum >> checksum.sha256
+          jq '.os.sha256 = "$(echo $dssum | awk '{print $1}')"' 1621.json | sponge 1621.json
+          jq '.files.zlinux.sha256 = "$(echo $zsum | awk '{print $1}')"' 1621.json | sponge 1621.json
+          jq '.files.ramdisk.sha256 = "$(echo $rdsum | awk '{print $1}')"' 1621.json | sponge 1621.json
+          jq '.files.vmlinux.sha256 = "$(echo $vmsum | awk '{print $1}')"' 1621.json | sponge 1621.json
           # patch vmlinux
           # vmlinux_mod.bin
           php patch-boot_params-check.php vmlinux vmlinux-mod
@@ -437,6 +476,7 @@ jobs:
           echo '---copy file---'
           cp diff.bsp /opt/dist/ds1621.bsp
           cp checksum.sha256 /opt/dist/ds1621.sha256
+          cp 1621.json /opt/dist/1621.json
           echo '---END---'
 
       - name: Upload
