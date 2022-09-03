@@ -145,9 +145,9 @@ jobs:
 
           echo '---copy file---'
           if [ $minor -ne 0 ]; then
-           cp diff.bsp /opt/dist/"zImage-001-918p-"+$os_version+"u-ramdisk-and-flag-NOP.bsp"
+           cp diff.bsp /opt/dist/"zImage-001-918p-"$os_version"u-ramdisk-and-flag-NOP.bsp"
           else
-           cp diff.bsp /opt/dist/"zImage-001-918p-"+$os_version+"-ramdisk-and-flag-NOP.bsp"
+           cp diff.bsp /opt/dist/"zImage-001-918p-"$os_version"-ramdisk-and-flag-NOP.bsp"
           fi
           cp checksum.sha256 /opt/dist/ds918.sha256
           cp 918.json /opt/dist/918.json
