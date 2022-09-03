@@ -78,57 +78,6 @@ jobs:
             vmtemp=$(echo $vmsum | awk '{print $1}')
           }
 
-          patch_linux() {
-            # patch vmlinux
-            # vmlinux_mod.bin
-            curl -L https://github.com/jumkey/dsm-research/raw/master/tools/common.php -o common.php
-            curl -L https://github.com/jumkey/dsm-research/raw/master/tools/patch-ramdisk-check.php -o patch-ramdisk-check.php
-            curl -L https://github.com/jumkey/dsm-research/raw/master/tools/patch-boot_params-check.php -o patch-boot_params-check.php
-            php patch-boot_params-check.php vmlinux vmlinux-mod
-            php patch-ramdisk-check.php vmlinux-mod vmlinux_mod.bin
-
-            git clone https://github.com/kiler129/recreate-zImage.git
-            chmod +x recreate-zImage/rebuild_kernel.sh
-            cd linux-src
-            # ---------- make zImage_mod
-            # Make file more anonymous
-            export KBUILD_BUILD_TIMESTAMP="1970/1/1 00:00:00"
-            export KBUILD_BUILD_USER="root"
-            export KBUILD_BUILD_HOST="localhost"
-            export KBUILD_BUILD_VERSION=0
-
-            export ARCH=x86_64
-            export CROSS_COMPILE=/opt/build/toolchain/x86_64-pc-linux-gnu/bin/x86_64-pc-linux-gnu-
-            #make olddefconfig
-            make defconfig
-            # change to lzma
-            sed -i 's/CONFIG_KERNEL_GZIP=y/# CONFIG_KERNEL_GZIP is not set/' .config
-            sed -i 's/# CONFIG_KERNEL_LZMA is not set/CONFIG_KERNEL_LZMA=y/' .config
-            << see_below
-            make clean
-            sed -i 's/bzImage: vmlinux/bzImage: /' arch/x86/Makefile
-            make vmlinux -j4 || true # make some *.o inspire by UnknowO
-            cp ../vmlinux_mod.bin vmlinux # vmlinux_mod.bin is already stripped of debugging and comments, strippe again should be ok
-            make bzImage
-            sed -i 's/bzImage: /bzImage: vmlinux/' arch/x86/Makefile
-            cp arch/x86/boot/bzImage ../zImage_mod
-            make clean
-            see_below
-            # for DS3615xs
-            #sed -i 's/   -std=gnu89$/   -std=gnu89 $(call cc-option,-fno-PIE)/' Makefile
-            sed -i 's/ ld -/ ${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
-            sed -i 's/(ld -/(${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
-            sed -i 's/ gcc / ${CROSS_COMPILE}gcc /' ../recreate-zImage/rebuild_kernel.sh
-            sed -i 's/ nm / ${CROSS_COMPILE}nm /' ../recreate-zImage/rebuild_kernel.sh
-            sed -i 's/ objcopy / ${CROSS_COMPILE}objcopy /' ../recreate-zImage/rebuild_kernel.sh
-            sed -i 's/(objdump /(${CROSS_COMPILE}objdump /' ../recreate-zImage/rebuild_kernel.sh
-            sed -i 's/ readelf / ${CROSS_COMPILE}readelf /' ../recreate-zImage/rebuild_kernel.sh
-            ../recreate-zImage/rebuild_kernel.sh $PWD/../linux-src ../vmlinux_mod.bin ../zImage_mod
-            # ----------
-            cd ..
-            bsdiff pat/zImage zImage_mod diff.bsp
-          }
-
           cleanup() {
             sudo rm /opt/build/checksum.sha256
             sudo rm /opt/build/ds.pat
@@ -169,8 +118,54 @@ jobs:
           else
            jq --arg osv "$os_version" '.os.id = "ds918p_"+$osv | .patches.zlinux = "zImage-001-918p-"+$osv+"-ramdisk-and-flag-NOP.bsp"' 918.json | sponge 918.json
           fi
+          # patch vmlinux
+          # vmlinux_mod.bin
+          curl -L https://github.com/jumkey/dsm-research/raw/master/tools/common.php -o common.php
+          curl -L https://github.com/jumkey/dsm-research/raw/master/tools/patch-ramdisk-check.php -o patch-ramdisk-check.php
+          curl -L https://github.com/jumkey/dsm-research/raw/master/tools/patch-boot_params-check.php -o patch-boot_params-check.php
+          php patch-boot_params-check.php vmlinux vmlinux-mod
+          php patch-ramdisk-check.php vmlinux-mod vmlinux_mod.bin
 
-          patch_linux
+          git clone https://github.com/kiler129/recreate-zImage.git
+          chmod +x recreate-zImage/rebuild_kernel.sh
+          cd linux-src
+          # ---------- make zImage_mod
+          # Make file more anonymous
+          export KBUILD_BUILD_TIMESTAMP="1970/1/1 00:00:00"
+          export KBUILD_BUILD_USER="root"
+          export KBUILD_BUILD_HOST="localhost"
+          export KBUILD_BUILD_VERSION=0
+
+          export ARCH=x86_64
+          export CROSS_COMPILE=/opt/build/toolchain/x86_64-pc-linux-gnu/bin/x86_64-pc-linux-gnu-
+          #make olddefconfig
+          make defconfig
+          # change to lzma
+          sed -i 's/CONFIG_KERNEL_GZIP=y/# CONFIG_KERNEL_GZIP is not set/' .config
+          sed -i 's/# CONFIG_KERNEL_LZMA is not set/CONFIG_KERNEL_LZMA=y/' .config
+          << see_below
+          make clean
+          sed -i 's/bzImage: vmlinux/bzImage: /' arch/x86/Makefile
+          make vmlinux -j4 || true # make some *.o inspire by UnknowO
+          cp ../vmlinux_mod.bin vmlinux # vmlinux_mod.bin is already stripped of debugging and comments, strippe again should be ok
+          make bzImage
+          sed -i 's/bzImage: /bzImage: vmlinux/' arch/x86/Makefile
+          cp arch/x86/boot/bzImage ../zImage_mod
+          make clean
+          see_below
+          # for DS3615xs
+          #sed -i 's/   -std=gnu89$/   -std=gnu89 $(call cc-option,-fno-PIE)/' Makefile
+          sed -i 's/ ld -/ ${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/(ld -/(${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ gcc / ${CROSS_COMPILE}gcc /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ nm / ${CROSS_COMPILE}nm /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ objcopy / ${CROSS_COMPILE}objcopy /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/(objdump /(${CROSS_COMPILE}objdump /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ readelf / ${CROSS_COMPILE}readelf /' ../recreate-zImage/rebuild_kernel.sh
+          ../recreate-zImage/rebuild_kernel.sh $PWD/../linux-src ../vmlinux_mod.bin ../zImage_mod
+          # ----------
+          cd ..
+          bsdiff pat/zImage zImage_mod diff.bsp
 
           echo '---copy file---'
           if [ $minor -ne 0 ]; then
