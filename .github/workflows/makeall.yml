@@ -17,7 +17,8 @@ jobs:
         run: |
           patfile=${{github.event.inputs.dsm}}
           echo "::set-output name=patfile::$patfile"
-          bash .github/workflows/makeall.sh ${{github.event.inputs.dsm}}
+          chmod +x "${GITHUB_WORKSPACE}/.github/workflows/makeall.sh"
+          bash "${GITHUB_WORKSPACE}/.github/workflows/makeall.sh" ${{github.event.inputs.dsm}}
 
       - name: Upload
         uses: actions/upload-artifact@v2
