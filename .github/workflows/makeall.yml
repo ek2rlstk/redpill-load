@@ -6,7 +6,7 @@ on:
       dsm:
         description: 'Input DSM Version (ex: 7.1.0-42661-1)'
         required: true
-        default: '7.1.0-42661'
+        default: '7.1.1-42951'
 
 jobs:
   build:
@@ -17,8 +17,385 @@ jobs:
         run: |
           patfile=${{github.event.inputs.dsm}}
           echo "::set-output name=patfile::$patfile"
-          chmod +x ./.github/workflows/makeall.sh
-          bash ./.github/workflows/makeall.sh ${{github.event.inputs.dsm}}
+          # install bsdiff
+          sudo apt-get install -y bsdiff jq moreutils
+
+          dsmos=($(echo $patfile | tr "-" "\n"))
+          major=${dsmos[0]} # 7.1.0
+          os_version=${dsmos[1]} # 42661
+          if [ ${#dsmos[@]} -eq 3 ]; then
+          minor=${dsmos[2]} # Update x
+          else
+          minor=0
+          fi
+
+          #ls -al $GITHUB_WORKSPACE/
+          mkdir /opt/build
+          mkdir /opt/dist
+          cd /opt/build
+
+          # DS918+
+          dsmodel="DS918+"
+          arch="apollolake"
+
+          if [ $minor -ne 0 ];
+          then
+          pat_address="https://global.download.synology.com/download/DSM/criticalupdate/update_pack/"${os_version}"-"${minor}"/synology_"${arch}"_"${dsmodel:2}".pat"
+          else
+              if [ $major = "7.1.0" ]; then
+                  pat_address="https://global.download.synology.com/download/DSM/release/7.1/42661-1/DSM_"${dsmodel}"_"${os_version}".pat"
+              else
+                  pat_address="https://global.download.synology.com/download/DSM/release/"${major}"/"${os_version}"/DSM_"${dsmodel}"_"${os_version}".pat"
+              fi
+          fi
+
+          curl -L ${pat_address} -o ds.pat
+          curl -L https://sourceforge.net/projects/dsgpl/files/Tool%20Chain/DSM%207.0.0%20Tool%20Chains/Intel%20x86%20Linux%204.4.180%20%28Apollolake%29/apollolake-gcc750_glibc226_x86_64-GPL.txz/ -o toolchain.txz
+          curl -L https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.180.tar.xz -o linux.tar.xz
+          curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-loader-action/master/misc --output misc
+          curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-load/develop-jun/config/DS918%2B/7.1.0-42661/config.json -o 918.json
+          base64 -d misc > patutils.tar
+          tar xf patutils.tar
+          sudo chmod 777 syno_extract_system
+          sudo chmod 777 syno_extract_patch
+          mkdir pat
+
+          if [ $minor -ne 0 ]; then
+          sudo LD_LIBRARY_PATH=. ./syno_extract_patch -xf ds.pat
+          tar xf $(find flashupdate*.tar | tail -n 1)
+          tar xf content.txz -C pat
+          else
+          sudo LD_LIBRARY_PATH=. ./syno_extract_system -xf ds.pat -C pat
+          fi
+
+          mkdir toolchain
+          tar xf toolchain.txz -C toolchain
+          mkdir linux-src
+          tar xf linux.tar.xz --strip-components 1 -C linux-src
+
+          # extract vmlinux
+          ./linux-src/scripts/extract-vmlinux pat/zImage > vmlinux
+          # sha256
+          dssum=$(sha256sum ds.pat)
+          zsum=$(sha256sum pat/zImage)
+          rdsum=$(sha256sum pat/rd.gz)
+          vmsum=$(sha256sum vmlinux)
+          echo $dssum >> checksum.sha256
+          echo $zsum >> checksum.sha256
+          echo $rdsum >> checksum.sha256
+          echo $vmsum >> checksum.sha256
+          dstmp=$(echo $dssum | awk '{print $1}')
+          ztemp=$(echo $zsum | awk '{print $1}')
+          rdtemp=$(echo $rdsum | awk '{print $1}')
+          vmtemp=$(echo $vmsum | awk '{print $1}')
+          jq --arg patadd "$pat_address" --arg dst "$dstmp" --arg zt "$ztemp" --arg rdt "$rdtemp" --arg vmt "$vmtemp" '.os.pat_url = $patadd | .os.sha256 = $dst | .files.zlinux.sha256 = $zt | .files.ramdisk.sha256 = $rdt | .files.vmlinux.sha256 = $vmt' 918.json | sponge 918.json
+          if [ $minor -ne 0 ]; then
+          jq --arg osv "$os_version" '.os.id = "ds918p_"+$osv+"u" | .patches.zlinux = "zImage-001-918p-"+$osv+"u-ramdisk-and-flag-NOP.bsp"' 918.json | sponge 918.json
+          else
+          jq --arg osv "$os_version" '.os.id = "ds918p_"+$osv | .patches.zlinux = "zImage-001-918p-"+$osv+"-ramdisk-and-flag-NOP.bsp"' 918.json | sponge 918.json
+          fi
+          # patch vmlinux
+          # vmlinux_mod.bin
+          curl -L https://github.com/jumkey/dsm-research/raw/master/tools/common.php -o common.php
+          curl -L https://github.com/jumkey/dsm-research/raw/master/tools/patch-ramdisk-check.php -o patch-ramdisk-check.php
+          curl -L https://github.com/jumkey/dsm-research/raw/master/tools/patch-boot_params-check.php -o patch-boot_params-check.php
+          php patch-boot_params-check.php vmlinux vmlinux-mod
+          php patch-ramdisk-check.php vmlinux-mod vmlinux_mod.bin
+
+          git clone https://github.com/kiler129/recreate-zImage.git
+          chmod +x recreate-zImage/rebuild_kernel.sh
+          cd linux-src
+          # ---------- make zImage_mod
+          # Make file more anonymous
+          export KBUILD_BUILD_TIMESTAMP="1970/1/1 00:00:00"
+          export KBUILD_BUILD_USER="root"
+          export KBUILD_BUILD_HOST="localhost"
+          export KBUILD_BUILD_VERSION=0
+
+          export ARCH=x86_64
+          export CROSS_COMPILE=/opt/build/toolchain/x86_64-pc-linux-gnu/bin/x86_64-pc-linux-gnu-
+          #make olddefconfig
+          make defconfig
+          # change to lzma
+          sed -i 's/CONFIG_KERNEL_GZIP=y/# CONFIG_KERNEL_GZIP is not set/' .config
+          sed -i 's/# CONFIG_KERNEL_LZMA is not set/CONFIG_KERNEL_LZMA=y/' .config
+          << see_below
+          make clean
+          sed -i 's/bzImage: vmlinux/bzImage: /' arch/x86/Makefile
+          make vmlinux -j4 || true # make some *.o inspire by UnknowO
+          cp ../vmlinux_mod.bin vmlinux # vmlinux_mod.bin is already stripped of debugging and comments, strippe again should be ok
+          make bzImage
+          sed -i 's/bzImage: /bzImage: vmlinux/' arch/x86/Makefile
+          cp arch/x86/boot/bzImage ../zImage_mod
+          make clean
+          see_below
+          # for DS3615xs
+          #sed -i 's/   -std=gnu89$/   -std=gnu89 $(call cc-option,-fno-PIE)/' Makefile
+          sed -i 's/ ld -/ ${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/(ld -/(${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ gcc / ${CROSS_COMPILE}gcc /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ nm / ${CROSS_COMPILE}nm /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ objcopy / ${CROSS_COMPILE}objcopy /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/(objdump /(${CROSS_COMPILE}objdump /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ readelf / ${CROSS_COMPILE}readelf /' ../recreate-zImage/rebuild_kernel.sh
+          ../recreate-zImage/rebuild_kernel.sh $PWD/../linux-src ../vmlinux_mod.bin ../zImage_mod
+          # ----------
+          cd ..
+          bsdiff pat/zImage zImage_mod diff.bsp
+
+          echo '---copy file---'
+          if [ $minor -ne 0 ]; then
+          cp diff.bsp /opt/dist/"zImage-001-918p-"$os_version"u-ramdisk-and-flag-NOP.bsp"
+          else
+          cp diff.bsp /opt/dist/"zImage-001-918p-"$os_version"-ramdisk-and-flag-NOP.bsp"
+          fi
+          cp checksum.sha256 /opt/dist/ds918.sha256
+          cp 918.json /opt/dist/918.json
+          echo '---END---'
+          sudo rm /opt/build/checksum.sha256
+          sudo rm /opt/build/ds.pat
+          sudo rm /opt/build/diff.bsp
+          sudo rm /opt/build/zImage_mod
+          sudo rm /opt/build/vmlinux
+          sudo rm /opt/build/vmlinux-mod
+          sudo rm /opt/build/vmlinux_mod.bin
+          sudo rm /opt/build/toolchain.txz
+          sudo rm -rf /opt/build/pat
+          sudo rm -rf /opt/build/toolchain
+          sudo rm -rf /opt/build/linux-src
+          sudo rm -rf /opt/build/recreate-zImage
+
+          # DS920+
+          dsmodel="DS920+"
+          arch="geminilake"
+
+          if [ $minor -ne 0 ];
+          then
+          pat_address="https://global.download.synology.com/download/DSM/criticalupdate/update_pack/"${os_version}"-"${minor}"/synology_"${arch}"_"${dsmodel:2}".pat"
+          else
+              if [ $major = "7.1.0" ]; then
+                  pat_address="https://global.download.synology.com/download/DSM/release/7.1/42661-1/DSM_"${dsmodel}"_"${os_version}".pat"
+              else
+                  pat_address="https://global.download.synology.com/download/DSM/release/"${major}"/"${os_version}"/DSM_"${dsmodel}"_"${os_version}".pat"
+              fi
+          fi
+
+          curl -L ${pat_address} -o ds.pat
+          curl -L https://sourceforge.net/projects/dsgpl/files/Tool%20Chain/DSM%207.0.0%20Tool%20Chains/Intel%20x86%20Linux%204.4.180%20%28GeminiLake%29/geminilake-gcc750_glibc226_x86_64-GPL.txz/ -o toolchain.txz
+          curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-load/develop-jun/config/DS920%2B/7.1.0-42661/config.json -o 920.json
+          mkdir pat
+
+          if [ $minor -ne 0 ]; then
+          sudo LD_LIBRARY_PATH=. ./syno_extract_patch -xf ds.pat
+          tar xf $(find flashupdate*.tar | tail -n 1)
+          tar xf content.txz -C pat
+          else
+          sudo LD_LIBRARY_PATH=. ./syno_extract_system -xf ds.pat -C pat
+          fi
+
+          mkdir toolchain
+          tar xf toolchain.txz -C toolchain
+          mkdir linux-src
+          tar xf linux.tar.xz --strip-components 1 -C linux-src
+
+          # extract vmlinux
+          ./linux-src/scripts/extract-vmlinux pat/zImage > vmlinux
+          # sha256
+          dssum=$(sha256sum ds.pat)
+          zsum=$(sha256sum pat/zImage)
+          rdsum=$(sha256sum pat/rd.gz)
+          vmsum=$(sha256sum vmlinux)
+          echo $dssum >> checksum.sha256
+          echo $zsum >> checksum.sha256
+          echo $rdsum >> checksum.sha256
+          echo $vmsum >> checksum.sha256
+          dstmp=$(echo $dssum | awk '{print $1}')
+          ztemp=$(echo $zsum | awk '{print $1}')
+          rdtemp=$(echo $rdsum | awk '{print $1}')
+          vmtemp=$(echo $vmsum | awk '{print $1}')
+          jq --arg patadd "$pat_address" --arg dst "$dstmp" --arg zt "$ztemp" --arg rdt "$rdtemp" --arg vmt "$vmtemp" '.os.pat_url = $patadd | .os.sha256 = $dst | .files.zlinux.sha256 = $zt | .files.ramdisk.sha256 = $rdt | .files.vmlinux.sha256 = $vmt' 920.json | sponge 920.json
+          if [ $minor -ne 0 ]; then
+          jq --arg osv "$os_version" '.os.id = "ds920p_"+$osv+"u" | .patches.zlinux = "zImage-001-920p-"+$osv+"u-ramdisk-and-flag-NOP.bsp"' 920.json | sponge 920.json
+          else
+          jq --arg osv "$os_version" '.os.id = "ds920p_"+$osv | .patches.zlinux = "zImage-001-920p-"+$osv+"-ramdisk-and-flag-NOP.bsp"' 920.json | sponge 920.json
+          fi
+          # patch vmlinux
+          # vmlinux_mod.bin
+          php patch-boot_params-check.php vmlinux vmlinux-mod
+          php patch-ramdisk-check.php vmlinux-mod vmlinux_mod.bin
+
+          git clone https://github.com/kiler129/recreate-zImage.git
+          chmod +x recreate-zImage/rebuild_kernel.sh
+          cd linux-src
+          # ---------- make zImage_mod
+          # Make file more anonymous
+          export KBUILD_BUILD_TIMESTAMP="1970/1/1 00:00:00"
+          export KBUILD_BUILD_USER="root"
+          export KBUILD_BUILD_HOST="localhost"
+          export KBUILD_BUILD_VERSION=0
+
+          export ARCH=x86_64
+          export CROSS_COMPILE=/opt/build/toolchain/x86_64-pc-linux-gnu/bin/x86_64-pc-linux-gnu-
+          #make olddefconfig
+          make defconfig
+          # change to lzma
+          sed -i 's/CONFIG_KERNEL_GZIP=y/# CONFIG_KERNEL_GZIP is not set/' .config
+          sed -i 's/# CONFIG_KERNEL_LZMA is not set/CONFIG_KERNEL_LZMA=y/' .config
+          << see_below
+          make clean
+          sed -i 's/bzImage: vmlinux/bzImage: /' arch/x86/Makefile
+          make vmlinux -j4 || true # make some *.o inspire by UnknowO
+          cp ../vmlinux_mod.bin vmlinux # vmlinux_mod.bin is already stripped of debugging and comments, strippe again should be ok
+          make bzImage
+          sed -i 's/bzImage: /bzImage: vmlinux/' arch/x86/Makefile
+          cp arch/x86/boot/bzImage ../zImage_mod
+          make clean
+          see_below
+          # for DS3615xs
+          #sed -i 's/   -std=gnu89$/   -std=gnu89 $(call cc-option,-fno-PIE)/' Makefile
+          sed -i 's/ ld -/ ${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/(ld -/(${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ gcc / ${CROSS_COMPILE}gcc /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ nm / ${CROSS_COMPILE}nm /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ objcopy / ${CROSS_COMPILE}objcopy /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/(objdump /(${CROSS_COMPILE}objdump /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ readelf / ${CROSS_COMPILE}readelf /' ../recreate-zImage/rebuild_kernel.sh
+          ../recreate-zImage/rebuild_kernel.sh $PWD/../linux-src ../vmlinux_mod.bin ../zImage_mod
+          # ----------
+          cd ..
+          bsdiff pat/zImage zImage_mod diff.bsp
+
+          echo '---copy file---'
+          if [ $minor -ne 0 ]; then
+          cp diff.bsp /opt/dist/"zImage-001-920p-"$os_version"u-ramdisk-and-flag-NOP.bsp"
+          else
+          cp diff.bsp /opt/dist/"zImage-001-920p-"$os_version"-ramdisk-and-flag-NOP.bsp"
+          fi
+          cp checksum.sha256 /opt/dist/ds920.sha256
+          cp 920.json /opt/dist/920.json
+          echo '---END---'
+          sudo rm /opt/build/checksum.sha256
+          sudo rm /opt/build/ds.pat
+          sudo rm /opt/build/diff.bsp
+          sudo rm /opt/build/zImage_mod
+          sudo rm /opt/build/vmlinux
+          sudo rm /opt/build/vmlinux-mod
+          sudo rm /opt/build/vmlinux_mod.bin
+          sudo rm /opt/build/toolchain.txz
+          sudo rm -rf /opt/build/pat
+          sudo rm -rf /opt/build/toolchain
+          sudo rm -rf /opt/build/linux-src
+          sudo rm -rf /opt/build/recreate-zImage
+
+          # DS3622xs+
+          dsmodel="DS3622xs+"
+          arch="broadwellnk"
+
+          if [ $minor -ne 0 ];
+          then
+          pat_address="https://global.download.synology.com/download/DSM/criticalupdate/update_pack/"${os_version}"-"${minor}"/synology_"${arch}"_"${dsmodel:2}".pat"
+          else
+              if [ $major = "7.1.0" ]; then
+                  pat_address="https://global.download.synology.com/download/DSM/release/7.1/42661-1/DSM_"${dsmodel}"_"${os_version}".pat"
+              else
+                  pat_address="https://global.download.synology.com/download/DSM/release/"${major}"/"${os_version}"/DSM_"${dsmodel}"_"${os_version}".pat"
+              fi
+          fi
+
+          curl -L ${pat_address} -o ds.pat
+          curl -L https://sourceforge.net/projects/dsgpl/files/Tool%20Chain/DSM%207.0.0%20Tool%20Chains/Intel%20x86%20Linux%204.4.180%20%28Broadwellnk%29/broadwellnk-gcc750_glibc226_x86_64-GPL.txz/ -o toolchain.txz
+          curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-load/develop-jun/config/DS3622xs%2B/7.1.0-42661/config.json -o 3622.json
+          mkdir pat
+
+          if [ $minor -ne 0 ]; then
+          sudo LD_LIBRARY_PATH=. ./syno_extract_patch -xf ds.pat
+          tar xf $(find flashupdate*.tar | tail -n 1)
+          tar xf content.txz -C pat
+          else
+          sudo LD_LIBRARY_PATH=. ./syno_extract_system -xf ds.pat -C pat
+          fi
+
+          mkdir toolchain
+          tar xf toolchain.txz -C toolchain
+          mkdir linux-src
+          tar xf linux.tar.xz --strip-components 1 -C linux-src
+
+          # extract vmlinux
+          ./linux-src/scripts/extract-vmlinux pat/zImage > vmlinux
+          # sha256
+          dssum=$(sha256sum ds.pat)
+          zsum=$(sha256sum pat/zImage)
+          rdsum=$(sha256sum pat/rd.gz)
+          vmsum=$(sha256sum vmlinux)
+          echo $dssum >> checksum.sha256
+          echo $zsum >> checksum.sha256
+          echo $rdsum >> checksum.sha256
+          echo $vmsum >> checksum.sha256
+          dstmp=$(echo $dssum | awk '{print $1}')
+          ztemp=$(echo $zsum | awk '{print $1}')
+          rdtemp=$(echo $rdsum | awk '{print $1}')
+          vmtemp=$(echo $vmsum | awk '{print $1}')
+          jq --arg patadd "$pat_address" --arg dst "$dstmp" --arg zt "$ztemp" --arg rdt "$rdtemp" --arg vmt "$vmtemp" '.os.pat_url = $patadd | .os.sha256 = $dst | .files.zlinux.sha256 = $zt | .files.ramdisk.sha256 = $rdt | .files.vmlinux.sha256 = $vmt' 3622.json | sponge 3622.json
+          if [ $minor -ne 0 ]; then
+          jq --arg osv "$os_version" '.os.id = "ds3622xsp_"+$osv+"u" | .patches.zlinux = "zImage-001-3622xsp-"+$osv+"u-ramdisk-and-header.bsp"' 3622.json | sponge 3622.json
+          else
+          jq --arg osv "$os_version" '.os.id = "ds3622xsp_"+$osv | .patches.zlinux = "zImage-001-3622xsp-"+$osv+"-ramdisk-and-header.bsp"' 3622.json | sponge 3622.json
+          fi
+          # patch vmlinux
+          # vmlinux_mod.bin
+          php patch-boot_params-check.php vmlinux vmlinux-mod
+          php patch-ramdisk-check.php vmlinux-mod vmlinux_mod.bin
+
+          git clone https://github.com/kiler129/recreate-zImage.git
+          chmod +x recreate-zImage/rebuild_kernel.sh
+          cd linux-src
+          # ---------- make zImage_mod
+          # Make file more anonymous
+          export KBUILD_BUILD_TIMESTAMP="1970/1/1 00:00:00"
+          export KBUILD_BUILD_USER="root"
+          export KBUILD_BUILD_HOST="localhost"
+          export KBUILD_BUILD_VERSION=0
+
+          export ARCH=x86_64
+          export CROSS_COMPILE=/opt/build/toolchain/x86_64-pc-linux-gnu/bin/x86_64-pc-linux-gnu-
+          #make olddefconfig
+          make defconfig
+          # change to lzma
+          sed -i 's/CONFIG_KERNEL_GZIP=y/# CONFIG_KERNEL_GZIP is not set/' .config
+          sed -i 's/# CONFIG_KERNEL_LZMA is not set/CONFIG_KERNEL_LZMA=y/' .config
+          << see_below
+          make clean
+          sed -i 's/bzImage: vmlinux/bzImage: /' arch/x86/Makefile
+          make vmlinux -j4 || true # make some *.o inspire by UnknowO
+          cp ../vmlinux_mod.bin vmlinux # vmlinux_mod.bin is already stripped of debugging and comments, strippe again should be ok
+          make bzImage
+          sed -i 's/bzImage: /bzImage: vmlinux/' arch/x86/Makefile
+          cp arch/x86/boot/bzImage ../zImage_mod
+          make clean
+          see_below
+          # for DS3615xs
+          #sed -i 's/   -std=gnu89$/   -std=gnu89 $(call cc-option,-fno-PIE)/' Makefile
+          sed -i 's/ ld -/ ${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/(ld -/(${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ gcc / ${CROSS_COMPILE}gcc /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ nm / ${CROSS_COMPILE}nm /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ objcopy / ${CROSS_COMPILE}objcopy /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/(objdump /(${CROSS_COMPILE}objdump /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ readelf / ${CROSS_COMPILE}readelf /' ../recreate-zImage/rebuild_kernel.sh
+          ../recreate-zImage/rebuild_kernel.sh $PWD/../linux-src ../vmlinux_mod.bin ../zImage_mod
+          # ----------
+          cd ..
+          bsdiff pat/zImage zImage_mod diff.bsp
+
+          echo '---copy file---'
+          if [ $minor -ne 0 ]; then
+          cp diff.bsp /opt/dist/"zImage-001-3622xsp-"$os_version"u-ramdisk-and-header.bsp"
+          else
+          cp diff.bsp /opt/dist/"zImage-001-3622xsp-"$os_version"-ramdisk-and-header.bsp"
+          fi
+          cp checksum.sha256 /opt/dist/ds3622.sha256
+          cp 3622.json /opt/dist/3622.json
+          echo '---END---'
 
       - name: Upload
         uses: actions/upload-artifact@v2
