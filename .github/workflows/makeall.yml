@@ -6,7 +6,7 @@ on:
       dsm:
         description: 'Input DSM Version (ex: 7.1.0-42661-1)'
         required: true
-        default: '7.1.1-42951'
+        default: '7.1.1-42962'
 
 jobs:
   build:
