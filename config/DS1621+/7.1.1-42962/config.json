@@ -1,21 +1,20 @@
 {
   "os": {
     "id": "ds1621p_42962",
-    "pat_url": "https://global.download.synology.com/download/DSM/release/7.1.1/42962/DSM_DS1621+_42962.pat",
-    "sha256": "bd88dfdf1eccdf7fefcdac67e11929818ae3aea938fd13286c1ac7b5aaa3964f"
+    "pat_url": "https://global.download.synology.com/download/DSM/release/7.1.1/42962-1/DSM_DS1621+_42962.pat",
+    "sha256": "41a4b80ef58f3ff5ee924329ff59bd4ac0abb7676561847a84e98bc6bb225003"
   },
-
   "files": {
     "zlinux": {
       "name": "zImage",
-      "sha256": "b0f296aad0cc3b8adba13483f89770d0a4daf9b9cab335910717448b1eaa8254"
+      "sha256": "4f45500024580e03afca1911cf543c48d17cd42944c0c94a8fb686f1384881fe"
     },
     "ramdisk": {
       "name": "rd.gz",
-      "sha256": "7a900e3017b4ee09b792d2ed291b7229476ae3e583fe559bbd9baaa812705aa0"
+      "sha256": "706956e2aff3dad600ad0bfe87c858b8aa0d1275017bd1c808c4d205182b3f91"
     },
     "vmlinux": {
-      "sha256": "035417ad0351ec17d8cf22eea40a1fd38d74fb62e9f18562048ff0d91b6f124f"
+      "sha256": "34dfb268bad192b6562853e4a374080e2371af3c108b2f8cbb9ffc160a8efa15"
     }
   },
 
@@ -58,7 +57,7 @@
     },
 
     "menu_entries": {
-      "RedPill DS1621+ v7.1.1-42962 (USB, Verbose)": {
+      "RedPill DS1621+ v7.1.1-42962 Update 1 (USB, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
@@ -74,7 +73,7 @@
           "log_buf_len": "32M"
         }
       },
-      "RedPill DS1621+ v7.1.1-42962 (SATA, Verbose)": {
+      "RedPill DS1621+ v7.1.1-42962 Update 1 (SATA, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
