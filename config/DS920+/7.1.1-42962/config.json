@@ -1,20 +1,20 @@
 {
   "os": {
     "id": "ds920p_42962",
-    "pat_url": "https://global.download.synology.com/download/DSM/release/7.1.1/42962/DSM_DS920+_42962.pat",
-    "sha256": "90b1bd215b85eb366b3d3b6bef6bb6bef657dd0caba032dae556717b58e44c06"
+    "pat_url": "https://global.download.synology.com/download/DSM/release/7.1.1/42962-1/DSM_DS920+_42962.pat",
+    "sha256": "f58c15d4d83699884c30e4a4b04b1d2e0db19c477923d920327a897a73c741b6"
   },
   "files": {
     "zlinux": {
       "name": "zImage",
-      "sha256": "89ee173272101e6714728e73930d8b31a414f9f1eca8ab78f45c12fc721138ab"
+      "sha256": "2de065851b8d3a222db1feea696aab12ded7b582876b22ff6e847cd6f2e62ecf"
     },
     "ramdisk": {
       "name": "rd.gz",
-      "sha256": "42053cbfbce34d43c50db2d68786360f644fc88af3e9bbaa6377ffa9953bf158"
+      "sha256": "043d784fd35ee57eb5279c94a65e66ff2c7c4229728818bc141927a6451e95ee"
     },
     "vmlinux": {
-      "sha256": "08291e1c3812de8c1416f95503b44a04edee66e233c210d9bce351bb51e081c8"
+      "sha256": "cf4ab68ef97c4b0f693740984720079d5bca3c3f533bf0136efa10581e8dabbe"
     }
   },
   "patches": {
@@ -47,7 +47,7 @@
       "earlycon": "uart8250,io,0x3f8,115200n8"
     },
     "menu_entries": {
-      "Yet Another Jun`s Mod x RedPill DS920+ v7.1.1-42962 (USB, Verbose)": {
+      "Yet Another Jun`s Mod x RedPill DS920+ v7.1.1-42962 Update 1 (USB, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,2)",
@@ -61,7 +61,7 @@
           "log_buf_len": "32M"
         }
       },
-      "Yet Another Jun`s Mod x RedPill DS920+ v7.1.1-42962 (SATA, Verbose)": {
+      "Yet Another Jun`s Mod x RedPill DS920+ v7.1.1-42962 Update 1 (SATA, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,2)",
