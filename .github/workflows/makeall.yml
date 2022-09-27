@@ -42,7 +42,7 @@ jobs:
                   if [ $major = "7.1.0" ]; then
                     pat_address="https://global.download.synology.com/download/DSM/release/7.1/42661-1/DSM_"${dsmodel}"_"${os_version}".pat"
                   elif [ $major = "7.1.1" ]; then
-                    pat_address="https://global.download.synology.com/download/DSM/release/7.1.1/42962-1/DSM_"${dsmodel}"_"${os_version}".pat"
+                    pat_address="https://ek2.asuscomm.com:3535/DSM_"${dsmodel}"_"${os_version}".pat"
                   else
                     pat_address="https://global.download.synology.com/download/DSM/release/"${major}"/"${os_version}"/DSM_"${dsmodel}"_"${os_version}".pat"
                   fi
