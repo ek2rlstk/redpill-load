@@ -16,7 +16,7 @@ jobs:
         id: bulid-bsp
         run: |
           patfile=${{github.event.inputs.dsm}}
-          echo "::set-output name=patfile::$patfile"
+          echo "patfile=$patfile" >> $GITHUB_OUTPUT
           # install bsdiff
           sudo apt-get install -y bsdiff jq moreutils
 
