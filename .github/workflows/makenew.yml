@@ -8,7 +8,7 @@ on:
         required: true
         default: 'https://global.download.synology.com/download/DSM/release/7.1/42661-1/DSM_DS920%2B_42661.pat'
       model:
-        description: 'DS918+, DS920+, DS3622xs+, DS1621+'
+        description: 'DS918+, DS920+, DS923+, DS3622xs+, DS1621+'
         required: true
         default: 'DS920+'
       minor-update:
@@ -48,6 +48,10 @@ jobs:
             ;;
            DS1621+)
             curl -L https://sourceforge.net/projects/dsgpl/files/Tool%20Chain/DSM%207.0.0%20Tool%20Chains/Intel%20x86%20Linux%204.4.180%20%28V1000%29/v1000-gcc750_glibc226_x86_64-GPL.txz/ -o toolchain.txz
+            curl -L https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.180.tar.xz -o linux.tar.xz
+            ;;
+           DS923+)
+            curl -L https://global.download.synology.com/download/ToolChain/toolchain/7.1-42661/AMD%20x86%20Linux%204.4.180%20%28r1000%29/r1000-gcc850_glibc226_x86_64-GPL.txz -o toolchain.txz
             curl -L https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.180.tar.xz -o linux.tar.xz
             ;;
            *)
