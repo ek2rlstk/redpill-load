@@ -1,8 +1,8 @@
 {
     "os": {
         "id": "ds3622xsp_42962u",
-        "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42962-2/synology_broadwellnk_3622xs+.pat",
-        "sha256": "d22b9d1719d173852002b795251c0ab40a2ec442c20b2ed8797e357173b7b861"
+        "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42962-3/synology_broadwellnk_3622xs+.pat",
+        "sha256": "27f0d26b2aa24e4ff81af133946d5533545779f245c8420f94b77ac919c78738"
       },
       "files": {
         "zlinux": {
@@ -67,7 +67,7 @@
             "earlycon": "uart8250,io,0x3f8,115200n8"
         },
         "menu_entries": {
-            "RedPill DS3622xs v7.1.1-42962 Update 2 (USB, Verbose)": {
+            "RedPill DS3622xs v7.1.1-42962 Update 3 (USB, Verbose)": {
                 "options": [
                     "savedefault",
                     "set root=(hd0,msdos1)",
@@ -83,7 +83,7 @@
                     "log_buf_len": "32M"
                 }
             },
-            "RedPill DS3622xs v7.1.1-42962 Update 2 (SATA, Verbose)": {
+            "RedPill DS3622xs v7.1.1-42962 Update 3 (SATA, Verbose)": {
                 "options": [
                     "savedefault",
                     "set root=(hd0,msdos1)",

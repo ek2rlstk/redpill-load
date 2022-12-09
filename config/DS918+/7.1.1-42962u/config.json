@@ -1,8 +1,8 @@
 {
   "os": {
     "id": "ds918p_42962u",
-    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42962-2/synology_apollolake_918+.pat",
-    "sha256": "9d19fb5e8c3b04325436255f166e298ce168489c52062fec8586c93075ebd7ac"
+    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42962-3/synology_apollolake_918+.pat",
+    "sha256": "353e3b9c06d630d3c5f18e203eca3d51675cc385b8674a80bc9a9f206da73d9d"
   },
   "files": {
     "zlinux": {
@@ -64,7 +64,7 @@
     },
 
     "menu_entries": {
-      "RedPill DS918+ v7.1.1-42962 Update 2 (USB, Verbose)": {
+      "RedPill DS918+ v7.1.1-42962 Update 3 (USB, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
@@ -80,7 +80,7 @@
           "log_buf_len": "32M"
         }
       },
-      "RedPill DS918+ v7.1.1-42962 Update 2 (SATA, Verbose)": {
+      "RedPill DS918+ v7.1.1-42962 Update 3 (SATA, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",

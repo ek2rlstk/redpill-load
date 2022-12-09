@@ -1,8 +1,8 @@
 {
   "os": {
     "id": "ds920p_42962u",
-    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42962-2/synology_geminilake_920+.pat",
-    "sha256": "2603415107652048dbd0eba6610aa17060282ea67828de92fa731ca04e61784e"
+    "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42962-3/synology_geminilake_920+.pat",
+    "sha256": "7a642b69ef9153f2d1517be60b35ab24c77dad48dba902be0f46aa3a6f580d96"
   },
   "files": {
     "zlinux": {
@@ -65,7 +65,7 @@
     },
 
     "menu_entries": {
-      "RedPill DS920+ v7.1.1-42962 Update 2 (USB, Verbose)": {
+      "RedPill DS920+ v7.1.1-42962 Update 3 (USB, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
@@ -81,7 +81,7 @@
           "log_buf_len": "32M"
         }
       },
-      "RedPill DS920+ v7.1.1-42962 Update 2 (SATA, Verbose)": {
+      "RedPill DS920+ v7.1.1-42962 Update 3 (SATA, Verbose)": {
         "options": [
           "savedefault",
           "set root=(hd0,msdos1)",
