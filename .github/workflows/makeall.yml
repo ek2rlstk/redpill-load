@@ -39,10 +39,12 @@ jobs:
             then
             pat_address="https://global.download.synology.com/download/DSM/criticalupdate/update_pack/"${os_version}"-"${minor}"/synology_"${arch}"_"${dsmodel:2}".pat"
             else
-                  if [ $major = "7.1.0" ]; then
+                  if [ $major == "7.1.0" ]; then
                     pat_address="https://global.download.synology.com/download/DSM/release/7.1/42661-1/DSM_"${dsmodel}"_"${os_version}".pat"
-                  elif [ $major = "7.1.1" ]; then
+                  elif [ $major == "7.1.1" ] && [ $dsmodel != "DS923+" ]; then
                     pat_address="https://global.download.synology.com/download/DSM/release/7.1.1/42962-1/DSM_"${dsmodel}"_"${os_version}".pat"
+                  elif [ $major == "7.1.1" ] && [ $dsmodel == "DS923+" ]; then
+                    pat_address="https://global.download.synology.com/download/DSM/release/7.1.1/42962/DSM_"${dsmodel}"_"${os_version}".pat"
                   else
                     pat_address="https://global.download.synology.com/download/DSM/release/"${major}"/"${os_version}"/DSM_"${dsmodel}"_"${os_version}".pat"
                   fi
@@ -63,9 +65,8 @@ jobs:
             mkdir linux-src
             tar xf linux.tar.xz --strip-components 1 -C linux-src
 
-            # extract vmlinux
+            # extract vmlinux & get sha256
             ./linux-src/scripts/extract-vmlinux pat/zImage > vmlinux
-            # sha256
             dssum=$(sha256sum ds.pat)
             zsum=$(sha256sum pat/zImage)
             rdsum=$(sha256sum pat/rd.gz)
@@ -100,7 +101,6 @@ jobs:
           arch="apollolake"
 
           get_patlink
-
           curl -L ${pat_address} -o ds.pat
           curl -L https://global.download.synology.com/download/ToolChain/toolchain/7.1-42661/Intel%20x86%20Linux%204.4.180%20%28Apollolake%29/apollolake-gcc850_glibc226_x86_64-GPL.txz -o toolchain.txz
           curl -L https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.180.tar.xz -o linux.tar.xz
@@ -120,8 +120,7 @@ jobs:
           else
           jq --arg osv "$os_version" '.os.id = "ds918p_"+$osv | .patches.zlinux = "zImage-001-918p-"+$osv+"-ramdisk-and-flag-NOP.bsp"' 918.json | sponge 918.json
           fi
-          # patch vmlinux
-          # vmlinux_mod.bin
+          # patch vmlinux: vmlinux_mod.bin
           curl -L https://github.com/jumkey/dsm-research/raw/master/tools/common.php -o common.php
           curl -L https://github.com/jumkey/dsm-research/raw/master/tools/patch-ramdisk-check.php -o patch-ramdisk-check.php
           curl -L https://github.com/jumkey/dsm-research/raw/master/tools/patch-boot_params-check.php -o patch-boot_params-check.php
@@ -155,8 +154,6 @@ jobs:
           cp arch/x86/boot/bzImage ../zImage_mod
           make clean
           see_below
-          # for DS3615xs
-          #sed -i 's/   -std=gnu89$/   -std=gnu89 $(call cc-option,-fno-PIE)/' Makefile
           sed -i 's/ ld -/ ${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
           sed -i 's/(ld -/(${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
           sed -i 's/ gcc / ${CROSS_COMPILE}gcc /' ../recreate-zImage/rebuild_kernel.sh
@@ -200,8 +197,7 @@ jobs:
           else
           jq --arg osv "$os_version" '.os.id = "ds920p_"+$osv | .patches.zlinux = "zImage-001-920p-"+$osv+"-ramdisk-and-flag-NOP.bsp"' 920.json | sponge 920.json
           fi
-          # patch vmlinux
-          # vmlinux_mod.bin
+          # patch vmlinux: vmlinux_mod.bin
           php patch-boot_params-check.php vmlinux vmlinux-mod
           php patch-ramdisk-check.php vmlinux-mod vmlinux_mod.bin
 
@@ -232,8 +228,6 @@ jobs:
           cp arch/x86/boot/bzImage ../zImage_mod
           make clean
           see_below
-          # for DS3615xs
-          #sed -i 's/   -std=gnu89$/   -std=gnu89 $(call cc-option,-fno-PIE)/' Makefile
           sed -i 's/ ld -/ ${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
           sed -i 's/(ld -/(${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
           sed -i 's/ gcc / ${CROSS_COMPILE}gcc /' ../recreate-zImage/rebuild_kernel.sh
@@ -277,8 +271,7 @@ jobs:
           else
           jq --arg osv "$os_version" '.os.id = "ds3622xsp_"+$osv | .patches.zlinux = "zImage-001-3622xsp-"+$osv+"-ramdisk-and-header.bsp"' 3622.json | sponge 3622.json
           fi
-          # patch vmlinux
-          # vmlinux_mod.bin
+          # patch vmlinux: vmlinux_mod.bin
           php patch-boot_params-check.php vmlinux vmlinux-mod
           php patch-ramdisk-check.php vmlinux-mod vmlinux_mod.bin
 
@@ -309,8 +302,6 @@ jobs:
           cp arch/x86/boot/bzImage ../zImage_mod
           make clean
           see_below
-          # for DS3615xs
-          #sed -i 's/   -std=gnu89$/   -std=gnu89 $(call cc-option,-fno-PIE)/' Makefile
           sed -i 's/ ld -/ ${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
           sed -i 's/(ld -/(${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
           sed -i 's/ gcc / ${CROSS_COMPILE}gcc /' ../recreate-zImage/rebuild_kernel.sh
@@ -358,8 +349,7 @@ jobs:
           else
           jq --arg osv "$os_version" '.os.id = "ds1621p_"+$osv | .patches.zlinux = "zImage-001-1621p-"+$osv+"-ramdisk-and-flag-NOP.bsp"' 1621.json | sponge 1621.json
           fi
-          # patch vmlinux
-          # vmlinux_mod.bin
+          # patch vmlinux: vmlinux_mod.bin
           php patch-boot_params-check.php vmlinux vmlinux-mod
           php patch-ramdisk-check.php vmlinux-mod vmlinux_mod.bin
 
@@ -390,8 +380,6 @@ jobs:
           cp arch/x86/boot/bzImage ../zImage_mod
           make clean
           see_below
-          # for DS3615xs
-          #sed -i 's/   -std=gnu89$/   -std=gnu89 $(call cc-option,-fno-PIE)/' Makefile
           sed -i 's/ ld -/ ${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
           sed -i 's/(ld -/(${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
           sed -i 's/ gcc / ${CROSS_COMPILE}gcc /' ../recreate-zImage/rebuild_kernel.sh
@@ -412,6 +400,83 @@ jobs:
           fi
           cp checksum.sha256 /opt/dist/ds1621.sha256
           cp 1621.json /opt/dist/1621.json
+
+          cleanup
+
+          # DS923+
+          dsmodel="DS923+"
+          arch="r1000"
+
+          get_patlink
+
+          curl -L ${pat_address} -o ds.pat
+          curl -L https://global.download.synology.com/download/ToolChain/toolchain/7.1-42661/AMD%20x86%20Linux%204.4.180%20%28r1000%29/r1000-gcc850_glibc226_x86_64-GPL.txz -o toolchain.txz
+          curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-load/develop-jun/config/DS923%2B/7.1.1-42962/config.json -o 923.json
+          mkdir pat
+
+          step_sha
+
+          dstmp=$(echo $dssum | awk '{print $1}')
+          ztemp=$(echo $zsum | awk '{print $1}')
+          rdtemp=$(echo $rdsum | awk '{print $1}')
+          vmtemp=$(echo $vmsum | awk '{print $1}')
+          jq --arg patadd "$pat_address" --arg dst "$dstmp" --arg zt "$ztemp" --arg rdt "$rdtemp" --arg vmt "$vmtemp" '.os.pat_url = $patadd | .os.sha256 = $dst | .files.zlinux.sha256 = $zt | .files.ramdisk.sha256 = $rdt | .files.vmlinux.sha256 = $vmt' 923.json | sponge 923.json
+          if [ $minor -ne 0 ]; then
+          jq --arg osv "$os_version" '.os.id = "ds923p_"+$osv+"u" | .patches.zlinux = "zImage-001-923p-"+$osv+"u-ramdisk-and-flag-NOP.bsp"' 923.json | sponge 923.json
+          else
+          jq --arg osv "$os_version" '.os.id = "ds923p_"+$osv | .patches.zlinux = "zImage-001-923p-"+$osv+"-ramdisk-and-flag-NOP.bsp"' 923.json | sponge 923.json
+          fi
+          # patch vmlinux: vmlinux_mod.bin
+          php patch-boot_params-check.php vmlinux vmlinux-mod
+          php patch-ramdisk-check.php vmlinux-mod vmlinux_mod.bin
+
+          git clone https://github.com/kiler129/recreate-zImage.git
+          chmod +x recreate-zImage/rebuild_kernel.sh
+          cd linux-src
+          # ---------- make zImage_mod
+          # Make file more anonymous
+          export KBUILD_BUILD_TIMESTAMP="1970/1/1 00:00:00"
+          export KBUILD_BUILD_USER="root"
+          export KBUILD_BUILD_HOST="localhost"
+          export KBUILD_BUILD_VERSION=0
+
+          export ARCH=x86_64
+          export CROSS_COMPILE=/opt/build/toolchain/x86_64-pc-linux-gnu/bin/x86_64-pc-linux-gnu-
+          #make olddefconfig
+          make defconfig
+          # change to lzma
+          sed -i 's/CONFIG_KERNEL_GZIP=y/# CONFIG_KERNEL_GZIP is not set/' .config
+          sed -i 's/# CONFIG_KERNEL_LZMA is not set/CONFIG_KERNEL_LZMA=y/' .config
+          << see_below
+          make clean
+          sed -i 's/bzImage: vmlinux/bzImage: /' arch/x86/Makefile
+          make vmlinux -j4 || true # make some *.o inspire by UnknowO
+          cp ../vmlinux_mod.bin vmlinux # vmlinux_mod.bin is already stripped of debugging and comments, strippe again should be ok
+          make bzImage
+          sed -i 's/bzImage: /bzImage: vmlinux/' arch/x86/Makefile
+          cp arch/x86/boot/bzImage ../zImage_mod
+          make clean
+          see_below
+          sed -i 's/ ld -/ ${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/(ld -/(${CROSS_COMPILE}ld -/' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ gcc / ${CROSS_COMPILE}gcc /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ nm / ${CROSS_COMPILE}nm /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ objcopy / ${CROSS_COMPILE}objcopy /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/(objdump /(${CROSS_COMPILE}objdump /' ../recreate-zImage/rebuild_kernel.sh
+          sed -i 's/ readelf / ${CROSS_COMPILE}readelf /' ../recreate-zImage/rebuild_kernel.sh
+          ../recreate-zImage/rebuild_kernel.sh $PWD/../linux-src ../vmlinux_mod.bin ../zImage_mod
+          # ----------
+          cd ..
+          bsdiff pat/zImage zImage_mod diff.bsp
+
+          echo '---copy file---'
+          if [ $minor -ne 0 ]; then
+          cp diff.bsp /opt/dist/"zImage-001-923p-"$os_version"u-ramdisk-and-flag-NOP.bsp"
+          else
+          cp diff.bsp /opt/dist/"zImage-001-923p-"$os_version"-ramdisk-and-flag-NOP.bsp"
+          fi
+          cp checksum.sha256 /opt/dist/ds923.sha256
+          cp 923.json /opt/dist/923.json
 
       - name: Upload
         uses: actions/upload-artifact@v3
