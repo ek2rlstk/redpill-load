@@ -102,7 +102,7 @@ jobs:
           get_patlink
 
           curl -L ${pat_address} -o ds.pat
-          curl -L https://sourceforge.net/projects/dsgpl/files/Tool%20Chain/DSM%207.0.0%20Tool%20Chains/Intel%20x86%20Linux%204.4.180%20%28Apollolake%29/apollolake-gcc750_glibc226_x86_64-GPL.txz/ -o toolchain.txz
+          curl -L https://global.download.synology.com/download/ToolChain/toolchain/7.1-42661/Intel%20x86%20Linux%204.4.180%20%28Apollolake%29/apollolake-gcc850_glibc226_x86_64-GPL.txz -o toolchain.txz
           curl -L https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.180.tar.xz -o linux.tar.xz
           curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-loader-action/master/misc --output misc
           curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-load/develop-jun/config/DS918%2B/7.1.0-42661/config.json -o 918.json
@@ -188,7 +188,7 @@ jobs:
           get_patlink
 
           curl -L ${pat_address} -o ds.pat
-          curl -L https://sourceforge.net/projects/dsgpl/files/Tool%20Chain/DSM%207.0.0%20Tool%20Chains/Intel%20x86%20Linux%204.4.180%20%28GeminiLake%29/geminilake-gcc750_glibc226_x86_64-GPL.txz/ -o toolchain.txz
+          curl -L https://global.download.synology.com/download/ToolChain/toolchain/7.1-42661/Intel%20x86%20Linux%204.4.180%20%28GeminiLake%29/geminilake-gcc850_glibc226_x86_64-GPL.txz -o toolchain.txz
           curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-load/develop-jun/config/DS920%2B/7.1.0-42661/config.json -o 920.json
           mkdir pat
 
@@ -265,7 +265,7 @@ jobs:
           get_patlink
 
           curl -L ${pat_address} -o ds.pat
-          curl -L https://sourceforge.net/projects/dsgpl/files/Tool%20Chain/DSM%207.0.0%20Tool%20Chains/Intel%20x86%20Linux%204.4.180%20%28Broadwellnk%29/broadwellnk-gcc750_glibc226_x86_64-GPL.txz/ -o toolchain.txz
+          curl -L https://global.download.synology.com/download/ToolChain/toolchain/7.1-42661/Intel%20x86%20Linux%204.4.180%20%28Broadwellnk%29/broadwellnk-gcc850_glibc226_x86_64-GPL.txz -o toolchain.txz
           curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-load/develop-jun/config/DS3622xs%2B/7.1.0-42661/config.json -o 3622.json
           mkdir pat
 
@@ -342,7 +342,7 @@ jobs:
           get_patlink
 
           curl -L ${pat_address} -o ds.pat
-          curl -L https://sourceforge.net/projects/dsgpl/files/Tool%20Chain/DSM%207.0.0%20Tool%20Chains/Intel%20x86%20Linux%204.4.180%20%28V1000%29/v1000-gcc750_glibc226_x86_64-GPL.txz/ -o toolchain.txz
+          curl -L https://global.download.synology.com/download/ToolChain/toolchain/7.1-42661/Intel%20x86%20Linux%204.4.180%20%28V1000%29/v1000-gcc850_glibc226_x86_64-GPL.txz -o toolchain.txz
           curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-load/develop-jun/config/DS1621%2B/7.1.0-42661/config.json -o 1621.json
           mkdir pat
 

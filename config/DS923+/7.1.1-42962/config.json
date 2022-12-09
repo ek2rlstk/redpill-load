@@ -1,8 +1,8 @@
 {
   "os": {
     "id": "ds923p_42962",
-    "pat_url": "file://localhost/root/DSM_DS923%2B_42962.pat",
-    "sha256": "a2bcfae34eda13f65bc7ee453b63bab982e2db9891a680968bc24ef5035ae8d8"
+    "pat_url": "https://global.download.synology.com/download/DSM/release/7.1.1/42962/DSM_DS923%2B_42962.pat",
+    "sha256": "e33b47df446ce0bd99c5613767c9dba977915e25acfb5ccb9f5650b14459458f"
   },
 
   "files": {
@@ -15,12 +15,13 @@
       "sha256": "0aa3f1b2d00f887aaf0d0e2c8b51ec97bb545bf5f99c40f33d3eaabc32a5ac03"
     },
     "vmlinux": {
-      "sha256": ""
+      "sha256": "1ba60c78f98ed4dec8d961a69abb68f3736765e29f30c6c3130a6256b478e102"
     }
   },
 
   "patches": {
     "zlinux": [
+      "zImage-001-923p-42962-ramdisk-and-flag-NOP.bsp"
     ],
     "ramdisk": [
       "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",

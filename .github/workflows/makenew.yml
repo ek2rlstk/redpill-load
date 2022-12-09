@@ -24,7 +24,7 @@ jobs:
         id: bulid-bsp
         run: |
           patfile=$(basename ${{github.event.inputs.pat-address}} | while read; do echo -e ${REPLY//%/\\x}; done)
-          echo "::set-output name=patfile::$patfile"
+          echo "patfile=$patfile" >> $GITHUB_OUTPUT
           # install bsdiff
           sudo apt-get install -y bsdiff
 
@@ -144,7 +144,7 @@ jobs:
           cp checksum.sha256 /opt/dist
           echo '---END---'
       - name: Upload
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: kernel bs patch for ${{ steps.bulid-bsp.outputs.patfile }}
           path: /opt/dist
