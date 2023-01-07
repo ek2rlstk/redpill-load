@@ -18,7 +18,9 @@
     }
   },
   "patches": {
-    "zlinux": "zImage-001-918p-42962-ramdisk-and-flag-NOP.bsp",
+    "zlinux": [
+      "zImage-001-918p-42962-ramdisk-and-flag-NOP.bsp"
+    ],
     "ramdisk": [
       "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
       "@@@COMMON@@@/v7.0.1/ramdisk-002-init-script.patch",
