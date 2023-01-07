@@ -4,6 +4,7 @@
     "pat_url": "https://global.download.synology.com/download/DSM/release/7.1.1/42962-1/DSM_DS920+_42962.pat",
     "sha256": "f58c15d4d83699884c30e4a4b04b1d2e0db19c477923d920327a897a73c741b6"
   },
+
   "files": {
     "zlinux": {
       "name": "zImage",
@@ -17,6 +18,7 @@
       "sha256": "cf4ab68ef97c4b0f693740984720079d5bca3c3f533bf0136efa10581e8dabbe"
     }
   },
+
   "patches": {
     "zlinux": [
       "zImage-001-920p-42962-ramdisk-and-flag-NOP.bsp"
@@ -27,7 +29,10 @@
       "@@@COMMON@@@/v7.0.1/ramdisk-003-post-init-script.patch"
     ]
   },
-  "synoinfo": {},
+
+  "synoinfo": {
+  },
+
   "grub": {
     "template": "@@@COMMON@@@/grub-template.conf",
     "base_cmdline": {
@@ -36,6 +41,7 @@
       "pid": "0x0001",
       "mac1": "",
       "netif_num": 1,
+
       "syno_hw_version": "DS920+",
       "intel_iommu": "igfx_off",
       "HddEnableDynamicPower": 1,
@@ -48,6 +54,7 @@
       "root": "/dev/md0",
       "earlycon": "uart8250,io,0x3f8,115200n8"
     },
+
     "menu_entries": {
       "Yet Another Jun`s Mod x RedPill DS920+ v7.1.1-42962 Update 1 (USB, Verbose)": {
         "options": [
@@ -81,6 +88,7 @@
       }
     }
   },
+
   "extra": {
     "compress_rd": false,
     "ramdisk_copy": {
