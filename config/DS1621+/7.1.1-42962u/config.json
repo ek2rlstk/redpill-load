@@ -4,6 +4,7 @@
     "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42962-3/synology_v1000_1621+.pat",
     "sha256": "bb09009bb39a899001142f5675f44a2ad148fb3b8415b9d2abb14dfb44753cca"
   },
+
   "files": {
     "zlinux": {
       "name": "zImage",
@@ -17,8 +18,11 @@
       "sha256": "8c37badb7d15b34bac691b421f7e5d4866fe13ce17aab148b19bd899f75d210f"
     }
   },
+
   "patches": {
-    "zlinux": "zImage-001-1621p-42962u-ramdisk-and-flag-NOP.bsp",
+    "zlinux": [
+      "zImage-001-1621p-42962u-ramdisk-and-flag-NOP.bsp"
+    ],
     "ramdisk": [
       "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
       "@@@COMMON@@@/v7.0.1/ramdisk-002-init-script.patch",

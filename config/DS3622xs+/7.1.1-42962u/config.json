@@ -4,6 +4,7 @@
         "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42962-3/synology_broadwellnk_3622xs+.pat",
         "sha256": "27f0d26b2aa24e4ff81af133946d5533545779f245c8420f94b77ac919c78738"
       },
+
       "files": {
         "zlinux": {
           "name": "zImage",
@@ -17,15 +18,19 @@
           "sha256": "8c37badb7d15b34bac691b421f7e5d4866fe13ce17aab148b19bd899f75d210f"
         }
       },
+
       "patches": {
         "_comment": ".bsp patches are applied to FILES using bspatch(1); .patch are applied to DIRECTORIES using patch(1)",
-        "zlinux": "zImage-001-3622xsp-42962u-ramdisk-and-header.bsp",
+        "zlinux": [
+          "zImage-001-3622xsp-42962u-ramdisk-and-header.bsp"
+        ],
         "ramdisk": [
           "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
           "@@@COMMON@@@/v7.0.1/ramdisk-002-init-script.patch",
           "@@@COMMON@@@/v7.0.1/ramdisk-003-post-init-script.patch"
         ]
       },
+
     "synoinfo": {
         "maxdisks": "24",
 		"support_bde_internal_10g": "no",
@@ -43,6 +48,7 @@
 		"update_server_ssl": "https//example.com/",
         "myds_region_api_base_url": "https://example.com"
     },
+
     "grub": {
         "template": "@@@COMMON@@@/grub-template.conf",
         "base_cmdline": {
@@ -66,6 +72,7 @@
             "root": "/dev/md0",
             "earlycon": "uart8250,io,0x3f8,115200n8"
         },
+
         "menu_entries": {
             "RedPill DS3622xs v7.1.1-42962 Update 3 (USB, Verbose)": {
                 "options": [
@@ -102,6 +109,7 @@
             }
         }
     },
+    
     "extra": {
         "compress_rd": false,
         "ramdisk_copy": {

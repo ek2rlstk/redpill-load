@@ -4,6 +4,7 @@
     "pat_url": "https://global.download.synology.com/download/DSM/release/7.1.1/42962-1/DSM_DS918+_42962.pat",
     "sha256": "9905e145f3bd88fcc938b00882be10281861867e5165ae98aefa37be0d5d34b5"
   },
+
   "files": {
     "zlinux": {
       "name": "zImage",
@@ -19,7 +20,9 @@
   },
 
   "patches": {
-    "zlinux": "zImage-001-918p-42962-ramdisk-and-flag-NOP.bsp",
+    "zlinux": [
+      "zImage-001-918p-42962-ramdisk-and-flag-NOP.bsp"
+    ],
     "ramdisk": [
       "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
       "@@@COMMON@@@/v7.0.1/ramdisk-002-init-script.patch",

@@ -4,6 +4,7 @@
         "pat_url": "https://global.download.synology.com/download/DSM/release/7.1.1/42962-1/DSM_DS3622xs+_42962.pat",
         "sha256": "775933e32a9e04700fc10a155f5a26c0878c3cdec18b6ec6b1d5a4110e83d428"
       },
+
       "files": {
         "zlinux": {
           "name": "zImage",
@@ -31,6 +32,7 @@
 		
         ]
     },
+
     "synoinfo": {
         "maxdisks": "24",
 		"support_bde_internal_10g": "no",
@@ -48,6 +50,7 @@
 		"update_server_ssl": "https//example.com/",
         "myds_region_api_base_url": "https://example.com"
     },
+
     "grub": {
         "template": "@@@COMMON@@@/grub-template.conf",
         "base_cmdline": {
@@ -71,6 +74,7 @@
             "root": "/dev/md0",
             "earlycon": "uart8250,io,0x3f8,115200n8"
         },
+
         "menu_entries": {
             "RedPill DS3622xs v7.1.1-42962 Update 1 (USB, Verbose)": {
                 "options": [
@@ -107,6 +111,7 @@
             }
         }
     },
+    
     "extra": {
         "compress_rd": false,
         "ramdisk_copy": {

@@ -4,6 +4,7 @@
     "pat_url": "https://global.download.synology.com/download/DSM/release/7.1.1/42962-1/DSM_DS1621+_42962.pat",
     "sha256": "41a4b80ef58f3ff5ee924329ff59bd4ac0abb7676561847a84e98bc6bb225003"
   },
+
   "files": {
     "zlinux": {
       "name": "zImage",
@@ -19,7 +20,9 @@
   },
 
   "patches": {
-    "zlinux": "zImage-001-1621p-42962-ramdisk-and-flag-NOP.bsp",
+    "zlinux": [
+      "zImage-001-1621p-42962-ramdisk-and-flag-NOP.bsp"
+    ],
     "ramdisk": [
       "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
       "@@@COMMON@@@/v7.0.1/ramdisk-002-init-script.patch",

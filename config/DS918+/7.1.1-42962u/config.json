@@ -4,6 +4,7 @@
     "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42962-3/synology_apollolake_918+.pat",
     "sha256": "353e3b9c06d630d3c5f18e203eca3d51675cc385b8674a80bc9a9f206da73d9d"
   },
+
   "files": {
     "zlinux": {
       "name": "zImage",
@@ -17,8 +18,11 @@
       "sha256": "59d798baf4ac230462a99ff646d5d86a336e0b88947dcf774c9e5d2002e23722"
     }
   },
+  
   "patches": {
-    "zlinux": "zImage-001-918p-42962u-ramdisk-and-flag-NOP.bsp",
+    "zlinux": [
+      "zImage-001-918p-42962u-ramdisk-and-flag-NOP.bsp"
+    ],
     "ramdisk": [
       "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
       "@@@COMMON@@@/v7.0.1/ramdisk-002-init-script.patch",

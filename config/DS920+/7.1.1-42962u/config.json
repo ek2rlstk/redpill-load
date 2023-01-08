@@ -4,6 +4,7 @@
     "pat_url": "https://global.download.synology.com/download/DSM/criticalupdate/update_pack/42962-3/synology_geminilake_920+.pat",
     "sha256": "7a642b69ef9153f2d1517be60b35ab24c77dad48dba902be0f46aa3a6f580d96"
   },
+
   "files": {
     "zlinux": {
       "name": "zImage",
@@ -17,8 +18,11 @@
       "sha256": "8c37badb7d15b34bac691b421f7e5d4866fe13ce17aab148b19bd899f75d210f"
     }
   },
+
   "patches": {
-    "zlinux": "zImage-001-920p-42962u-ramdisk-and-flag-NOP.bsp",
+    "zlinux": [
+      "zImage-001-920p-42962u-ramdisk-and-flag-NOP.bsp"
+    ],
     "ramdisk": [
       "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
       "@@@COMMON@@@/v7.0.1/ramdisk-002-init-script.patch",
