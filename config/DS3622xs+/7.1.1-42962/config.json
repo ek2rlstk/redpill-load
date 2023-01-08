@@ -4,6 +4,7 @@
     "pat_url": "https://global.download.synology.com/download/DSM/release/7.1.1/42962-1/DSM_DS3622xs+_42962.pat",
     "sha256": "775933e32a9e04700fc10a155f5a26c0878c3cdec18b6ec6b1d5a4110e83d428"
   },
+
   "files": {
     "zlinux": {
       "name": "zImage",
@@ -17,15 +18,19 @@
       "sha256": "4cf471b6b10908f901b6ac30e617a014af6ddaff0b57b6957304dfc0120ac56e"
     }
   },
+
   "patches": {
     "_comment": ".bsp patches are applied to FILES using bspatch(1); .patch are applied to DIRECTORIES using patch(1)",
-    "zlinux": "zImage-001-3622xsp-42962-ramdisk-and-header.bsp",
+    "zlinux": [
+      "zImage-001-3622xsp-42962-ramdisk-and-header.bsp"
+    ],
     "ramdisk": [
       "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
       "@@@COMMON@@@/v7.0.1/ramdisk-002-init-script.patch",
       "@@@COMMON@@@/v7.0.1/ramdisk-003-post-init-script.patch"
     ]
   },
+
   "synoinfo": {
     "maxdisks": "25",
     "internalportcfg": "0xffff",
@@ -33,6 +38,7 @@
     "support_bde_internal_10g": "no",
     "support_disk_compatibility": "no"
   },
+
   "grub": {
     "template": "@@@COMMON@@@/grub-template.conf",
     "base_cmdline": {
@@ -41,6 +47,7 @@
       "pid": "0x0001",
       "mac1": "",
       "netif_num": 1,
+
       "syno_hw_version": "DS3622xs+",
       "syno_hdd_powerup_seq": 0,
       "HddHotplug": 0,
@@ -53,6 +60,7 @@
       "root": "/dev/md0",
       "earlycon": "uart8250,io,0x3f8,115200n8"
     },
+
     "menu_entries": {
       "Yet Another Jun`s Mod x RedPill DS3622xs+ v7.1.1-42962 Update 1 (USB, Verbose)": {
         "options": [
@@ -85,6 +93,7 @@
       }
     }
   },
+  
   "extra": {
     "compress_rd": false,
     "ramdisk_copy": {

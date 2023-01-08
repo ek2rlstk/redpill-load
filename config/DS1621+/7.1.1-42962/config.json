@@ -4,6 +4,7 @@
     "pat_url": "https://global.download.synology.com/download/DSM/release/7.1.1/42962-1/DSM_DS1621+_42962.pat",
     "sha256": "41a4b80ef58f3ff5ee924329ff59bd4ac0abb7676561847a84e98bc6bb225003"
   },
+
   "files": {
     "zlinux": {
       "name": "zImage",
@@ -17,15 +18,21 @@
       "sha256": "34dfb268bad192b6562853e4a374080e2371af3c108b2f8cbb9ffc160a8efa15"
     }
   },
+
   "patches": {
-    "zlinux": "zImage-001-1621p-42962-ramdisk-and-flag-NOP.bsp",
+    "zlinux": [
+      "zImage-001-1621p-42962-ramdisk-and-flag-NOP.bsp"
+    ],
     "ramdisk": [
       "@@@COMMON@@@/ramdisk-001-disable-root-pwd.patch",
       "@@@COMMON@@@/v7.0.1/ramdisk-002-init-script.patch",
       "@@@COMMON@@@/v7.0.1/ramdisk-003-post-init-script.patch"
     ]
   },
-  "synoinfo": {},
+
+  "synoinfo": {
+  },
+
   "grub": {
     "template": "@@@COMMON@@@/grub-template.conf",
     "base_cmdline": {
@@ -34,6 +41,7 @@
       "pid": "0x0001",
       "mac1": "",
       "netif_num": 1,
+
       "syno_hw_version": "DS1621+",
       "SMBusHddDynamicPower": 1,
       "vender_format_version": 2,
@@ -45,6 +53,7 @@
       "root": "/dev/md0",
       "earlycon": "uart8250,io,0x3f8,115200n8"
     },
+
     "menu_entries": {
       "Yet Another Jun`s Mod x RedPill DS1621+ v7.1.1-42962 Update 1 (USB, Verbose)": {
         "options": [
@@ -78,6 +87,7 @@
       }
     }
   },
+
   "extra": {
     "compress_rd": false,
     "ramdisk_copy": {
