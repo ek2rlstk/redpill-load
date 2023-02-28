@@ -1,12 +1,12 @@
-name: Make kernel bs patch for DSM 7.1+ for All Support Models
+name: Make kernel bs patch for DSM 7.2+ for All Support Models
 
 on:
   workflow_dispatch:
     inputs:
       dsm:
-        description: 'Input DSM Version (ex: 7.1.0-42661-1)'
+        description: 'Input DSM Version (ex: 7.2.0-63134)'
         required: true
-        default: '7.1.1-42962'
+        default: '7.2.0-63134'
 
 jobs:
   build:
@@ -21,8 +21,8 @@ jobs:
           sudo apt-get install -y bsdiff jq moreutils
 
           dsmos=($(echo $patfile | tr "-" "\n"))
-          major=${dsmos[0]} # 7.1.0
-          os_version=${dsmos[1]} # 42661
+          major=${dsmos[0]} # 7.2.0
+          os_version=${dsmos[1]} # 63134
           if [ ${#dsmos[@]} -eq 3 ]; then
           minor=${dsmos[2]} # Update x
           else
@@ -37,17 +37,9 @@ jobs:
           get_patlink() {
             if [ $minor -ne 0 ];
             then
-            pat_address="https://global.download.synology.com/download/DSM/criticalupdate/update_pack/"${os_version}"-"${minor}"/synology_"${arch}"_"${dsmodel:2}".pat"
+              pat_address="https://global.download.synology.com/download/DSM/criticalupdate/update_pack/"${os_version}"-"${minor}"/synology_"${arch}"_"${dsmodel:2}".pat"
             else
-                  if [ $major == "7.1.0" ]; then
-                    pat_address="https://global.download.synology.com/download/DSM/release/7.1/42661-1/DSM_"${dsmodel}"_"${os_version}".pat"
-                  elif [ $major == "7.1.1" ] && [ $dsmodel != "DS923+" ]; then
-                    pat_address="https://global.download.synology.com/download/DSM/release/7.1.1/42962-1/DSM_"${dsmodel}"_"${os_version}".pat"
-                  elif [ $major == "7.1.1" ] && [ $dsmodel == "DS923+" ]; then
-                    pat_address="https://global.download.synology.com/download/DSM/release/7.1.1/42962-4/DSM_"${dsmodel}"_"${os_version}".pat"
-                  else
-                    pat_address="https://global.download.synology.com/download/DSM/release/"${major}"/"${os_version}"/DSM_"${dsmodel}"_"${os_version}".pat"
-                  fi
+              pat_address="https://global.download.synology.com/download/DSM/release/"${major}"/"${os_version}"/DSM_"${dsmodel}"_"${os_version}".pat"
             fi
           }
 
@@ -102,8 +94,8 @@ jobs:
 
           get_patlink
           curl -L ${pat_address} -o ds.pat
-          curl -L https://global.download.synology.com/download/ToolChain/toolchain/7.1-42661/Intel%20x86%20Linux%204.4.180%20%28Apollolake%29/apollolake-gcc850_glibc226_x86_64-GPL.txz -o toolchain.txz
-          curl -L https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.180.tar.xz -o linux.tar.xz
+          curl -L https://global.synologydownload.com/download/ToolChain/toolchain/7.2-63134/Intel%20x86%20Linux%204.4.302%20%28Apollolake%29/apollolake-gcc1220_glibc236_x86_64-GPL.txz -o toolchain.txz
+          curl -L https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.302.tar.xz -o linux.tar.xz
           curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-loader-action/master/misc --output misc
           curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-load/develop-jun/config/DS918%2B/7.1.0-42661/config.json -o 918.json
           base64 -d misc > patutils.tar
@@ -185,7 +177,7 @@ jobs:
           get_patlink
 
           curl -L ${pat_address} -o ds.pat
-          curl -L https://global.download.synology.com/download/ToolChain/toolchain/7.1-42661/Intel%20x86%20Linux%204.4.180%20%28GeminiLake%29/geminilake-gcc850_glibc226_x86_64-GPL.txz -o toolchain.txz
+          curl -L https://global.synologydownload.com/download/ToolChain/toolchain/7.2-63134/Intel%20x86%20Linux%204.4.302%20%28GeminiLake%29/geminilake-gcc1220_glibc236_x86_64-GPL.txz -o toolchain.txz
           curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-load/develop-jun/config/DS920%2B/7.1.0-42661/config.json -o 920.json
           mkdir pat
 
@@ -259,7 +251,7 @@ jobs:
           get_patlink
 
           curl -L ${pat_address} -o ds.pat
-          curl -L https://global.download.synology.com/download/ToolChain/toolchain/7.1-42661/Intel%20x86%20Linux%204.4.180%20%28Broadwellnk%29/broadwellnk-gcc850_glibc226_x86_64-GPL.txz -o toolchain.txz
+          curl -L https://global.synologydownload.com/download/ToolChain/toolchain/7.2-63134/Intel%20x86%20Linux%204.4.302%20%28Broadwellnk%29/broadwellnk-gcc1220_glibc236_x86_64-GPL.txz -o toolchain.txz
           curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-load/develop-jun/config/DS3622xs%2B/7.1.0-42661/config.json -o 3622.json
           mkdir pat
 
@@ -333,7 +325,7 @@ jobs:
           get_patlink
 
           curl -L ${pat_address} -o ds.pat
-          curl -L https://global.download.synology.com/download/ToolChain/toolchain/7.1-42661/Intel%20x86%20Linux%204.4.180%20%28V1000%29/v1000-gcc850_glibc226_x86_64-GPL.txz -o toolchain.txz
+          curl -L https://global.synologydownload.com/download/ToolChain/toolchain/7.2-63134/Intel%20x86%20Linux%204.4.302%20%28V1000%29/v1000-gcc1220_glibc236_x86_64-GPL.txz -o toolchain.txz
           curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-load/develop-jun/config/DS1621%2B/7.1.0-42661/config.json -o 1621.json
           mkdir pat
 
@@ -410,7 +402,7 @@ jobs:
           get_patlink
 
           curl -L ${pat_address} -o ds.pat
-          curl -L https://global.download.synology.com/download/ToolChain/toolchain/7.1-42661/AMD%20x86%20Linux%204.4.180%20%28r1000%29/r1000-gcc850_glibc226_x86_64-GPL.txz -o toolchain.txz
+          curl -L https://global.synologydownload.com/download/ToolChain/toolchain/7.2-63134/AMD%20x86%20Linux%204.4.302%20%28r1000%29/r1000-gcc1220_glibc236_x86_64-GPL.txz -o toolchain.txz
           curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-load/develop-jun/config/DS923%2B/7.1.1-42962/config.json -o 923.json
           mkdir pat
 

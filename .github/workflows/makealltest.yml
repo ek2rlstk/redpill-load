@@ -7,6 +7,10 @@ on:
         description: 'Input DSM Version (ex: 7.1.0-42661-1)'
         required: true
         default: '7.1.0-42661'
+      model:
+        description: 'Input DSM Model (ex: DS918+)'
+        required: true
+        default: 'DS918+'
 
 jobs:
   build:
@@ -20,6 +24,7 @@ jobs:
           # install bsdiff
           sudo apt-get install -y bsdiff jq moreutils
 
+          dsmodel=${{github.event.inputs.model}}
           dsmos=($(echo $patfile | tr "-" "\n"))
           major=${dsmos[0]} # 7.1.0
           os_version=${dsmos[1]} # 42661
@@ -39,11 +44,55 @@ jobs:
             then
             pat_address="https://global.download.synology.com/download/DSM/criticalupdate/update_pack/"${os_version}"-"${minor}"/synology_"${arch}"_"${dsmodel:2}".pat"
             else
-                  if [ $major = "7.1.0" ]; then
+                  if [ $major == "7.1.0" ]; then
                     pat_address="https://global.download.synology.com/download/DSM/release/7.1/42661-1/DSM_"${dsmodel}"_"${os_version}".pat"
+                  elif [ $major == "7.1.1" ] && [ $dsmodel != "DS923+" ]; then
+                    pat_address="https://global.download.synology.com/download/DSM/release/7.1.1/42962-1/DSM_"${dsmodel}"_"${os_version}".pat"
+                  elif [ $major == "7.1.1" ] && [ $dsmodel == "DS923+" ]; then
+                    pat_address="https://global.download.synology.com/download/DSM/release/7.1.1/42962-4/DSM_"${dsmodel}"_"${os_version}".pat"
                   else
                     pat_address="https://global.download.synology.com/download/DSM/release/"${major}"/"${os_version}"/DSM_"${dsmodel}"_"${os_version}".pat"
                   fi
+            fi
+          }
+
+          get_toolchain() {
+            if [ $major == "7.2.0" ]; then
+              kernel="https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.302.tar.xz"
+              if [ $dsmodel == "DS918+" ]; then
+                toolchain="https://global.synologydownload.com/download/ToolChain/toolchain/7.2-63134/Intel%20x86%20Linux%204.4.302%20%28Apollolake%29/apollolake-gcc1220_glibc236_x86_64-GPL.txz"
+                arch="apollolake"
+              elif [ $dsmodel == "DS920+" ]; then
+                toolchain="https://global.synologydownload.com/download/ToolChain/toolchain/7.2-63134/Intel%20x86%20Linux%204.4.302%20%28GeminiLake%29/geminilake-gcc1220_glibc236_x86_64-GPL.txz"
+                arch="geminilake"
+              elif [ $dsmodel == "DS923+" ]; then
+                toolchain="https://global.synologydownload.com/download/ToolChain/toolchain/7.2-63134/AMD%20x86%20Linux%204.4.302%20%28r1000%29/r1000-gcc1220_glibc236_x86_64-GPL.txz"
+                arch="r1000"
+              elif [ $dsmodel == "DS1621+" ]; then
+                toolchain="https://global.synologydownload.com/download/ToolChain/toolchain/7.2-63134/Intel%20x86%20Linux%204.4.302%20%28V1000%29/v1000-gcc1220_glibc236_x86_64-GPL.txz"
+                arch="v1000"
+              elif [ $dsmodel == "DS3622xs+" ]; then
+                toolchain="https://global.synologydownload.com/download/ToolChain/toolchain/7.2-63134/Intel%20x86%20Linux%204.4.302%20%28Broadwellnk%29/broadwellnk-gcc1220_glibc236_x86_64-GPL.txz"
+                arch="broadwellnk"
+              fi
+            elif
+              kernel="https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.180.tar.xz"
+              if [ $dsmodel == "DS918+" ]; then
+                toolchain="https://global.download.synology.com/download/ToolChain/toolchain/7.1-42661/Intel%20x86%20Linux%204.4.180%20%28Apollolake%29/apollolake-gcc850_glibc226_x86_64-GPL.txz"
+                arch="apollolake"
+              elif [ $dsmodel == "DS920+" ]; then
+                toolchain="https://global.download.synology.com/download/ToolChain/toolchain/7.1-42661/Intel%20x86%20Linux%204.4.180%20%28GeminiLake%29/geminilake-gcc850_glibc226_x86_64-GPL.txz"
+                arch="geminilake"
+              elif [ $dsmodel == "DS923+" ]; then
+                toolchain="https://global.download.synology.com/download/ToolChain/toolchain/7.1-42661/AMD%20x86%20Linux%204.4.180%20%28r1000%29/r1000-gcc850_glibc226_x86_64-GPL.txz"
+                arch="r1000"
+              elif [ $dsmodel == "DS1621+" ]; then
+                toolchain="https://global.download.synology.com/download/ToolChain/toolchain/7.1-42661/Intel%20x86%20Linux%204.4.180%20%28V1000%29/v1000-gcc850_glibc226_x86_64-GPL.txz"
+                arch="v1000"
+              elif [ $dsmodel == "DS3622xs+" ]; then
+                toolchain="https://global.download.synology.com/download/ToolChain/toolchain/7.1-42661/Intel%20x86%20Linux%204.4.180%20%28Broadwellnk%29/broadwellnk-gcc850_glibc226_x86_64-GPL.txz"
+                arch="broadwellnk"
+              fi
             fi
           }
 
@@ -93,17 +142,13 @@ jobs:
             sudo rm -rf /opt/build/recreate-zImage
           }
 
-          # DS918+
-          dsmodel="DS918+"
-          arch="apollolake"
-
           get_patlink
+          get_toolchain
 
           curl -L ${pat_address} -o ds.pat
-          curl -L https://sourceforge.net/projects/dsgpl/files/Tool%20Chain/DSM%207.0.0%20Tool%20Chains/Intel%20x86%20Linux%204.4.180%20%28Apollolake%29/apollolake-gcc750_glibc226_x86_64-GPL.txz/ -o toolchain.txz
-          curl -L https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.180.tar.xz -o linux.tar.xz
+          curl -L ${toolchain} -o toolchain.txz
+          curl -L ${linux} -o linux.tar.xz
           curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-loader-action/master/misc --output misc
-          curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-load/develop-jun/config/DS918%2B/7.1.0-42661/config.json -o 918.json
           base64 -d misc > patutils.tar
           tar xf patutils.tar
           sudo chmod 777 syno_extract_system
@@ -112,12 +157,6 @@ jobs:
 
           step_sha
 
-          jq --arg patadd "$pat_address" --arg dst "$dstmp" --arg zt "$ztemp" --arg rdt "$rdtemp" --arg vmt "$vmtemp" '.os.pat_url = $patadd | .os.sha256 = $dst | .files.zlinux.sha256 = $zt | .files.ramdisk.sha256 = $rdt | .files.vmlinux.sha256 = $vmt' 918.json | sponge 918.json
-          if [ $minor -ne 0 ]; then
-           jq --arg osv "$os_version" '.os.id = "ds918p_"+$osv+"u" | .patches.zlinux = "zImage-001-918p-"+$osv+"u-ramdisk-and-flag-NOP.bsp"' 918.json | sponge 918.json
-          else
-           jq --arg osv "$os_version" '.os.id = "ds918p_"+$osv | .patches.zlinux = "zImage-001-918p-"+$osv+"-ramdisk-and-flag-NOP.bsp"' 918.json | sponge 918.json
-          fi
           # patch vmlinux
           # vmlinux_mod.bin
           curl -L https://github.com/jumkey/dsm-research/raw/master/tools/common.php -o common.php
@@ -169,12 +208,11 @@ jobs:
 
           echo '---copy file---'
           if [ $minor -ne 0 ]; then
-           cp diff.bsp /opt/dist/"zImage-001-918p-"$os_version"u-ramdisk-and-flag-NOP.bsp"
+           cp diff.bsp /opt/dist/"zImage-001-dsm-"$os_version"u-ramdisk-and-flag-NOP.bsp"
           else
-           cp diff.bsp /opt/dist/"zImage-001-918p-"$os_version"-ramdisk-and-flag-NOP.bsp"
+           cp diff.bsp /opt/dist/"zImage-001-dsm-"$os_version"-ramdisk-and-flag-NOP.bsp"
           fi
-          cp checksum.sha256 /opt/dist/ds918.sha256
-          cp 918.json /opt/dist/918.json
+          cp checksum.sha256 /opt/dist/dsm.sha256
           echo '---END---'
 
           cleanup
