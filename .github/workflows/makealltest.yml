@@ -77,7 +77,7 @@ jobs:
                 toolchain="https://global.synologydownload.com/download/ToolChain/toolchain/7.2-63134/Intel%20x86%20Linux%204.4.302%20%28Broadwellnk%29/broadwellnk-gcc1220_glibc236_x86_64-GPL.txz"
                 arch="broadwellnk"
               fi
-            elif
+            else
               kernel="https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.4.180.tar.xz"
               if [ $dsmodel == "DS918+" ]; then
                 toolchain="https://global.download.synology.com/download/ToolChain/toolchain/7.1-42661/Intel%20x86%20Linux%204.4.180%20%28Apollolake%29/apollolake-gcc850_glibc226_x86_64-GPL.txz"
