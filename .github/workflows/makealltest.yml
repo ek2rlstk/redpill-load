@@ -149,7 +149,7 @@ jobs:
 
           curl -L ${pat_address} -o ds.pat
           curl -L ${toolchain} -o toolchain.txz
-          curl -L ${linux} -o linux.tar.xz
+          curl -L ${kernel} -o linux.tar.xz
           curl -L https://raw.githubusercontent.com/ek2rlstk/redpill-loader-action/master/misc --output misc
           base64 -d misc > patutils.tar
           tar xf patutils.tar
