@@ -51,7 +51,7 @@ jobs:
                   elif [ $major == "7.1.1" ] && [ $dsmodel == "DS923+" ]; then
                     pat_address="https://global.download.synology.com/download/DSM/release/7.1.1/42962-4/DSM_"${dsmodel}"_"${os_version}".pat"
                   elif [ $major == "7.2.0" ]; then
-                    pat_address="https://global.synologydownload.com/download/DSM/beta/7.2/64216/DSM_"${dsmodel}"_"${os_version}.pat"
+                    pat_address="https://global.synologydownload.com/download/DSM/beta/7.2/64216/DSM_"${dsmodel}"_"${os_version}".pat"
                   else
                     pat_address="https://global.download.synology.com/download/DSM/release/"${major}"/"${os_version}"/DSM_"${dsmodel}"_"${os_version}".pat"
                   fi
